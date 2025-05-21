@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj": {}
+    "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj": {
+    "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
         "projectName": "Cineverse",
-        "projectPath": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
-        "packagesPath": "C:\\Users\\DT User2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\obj\\",
+        "projectPath": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\DT User2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -62,13 +62,25 @@
               "target": "Package",
               "version": "[8.0.14, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.14, )"
+              "version": "[9.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.14, )"
+              "version": "[9.0.5, )"
             }
           },
           "imports": [
