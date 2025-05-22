@@ -29,7 +29,7 @@ namespace Cineverse.Data
             modelBuilder.Entity<Karta>().ToTable("Karta");
             modelBuilder.Entity<Sjediste>().ToTable("Sjediste");
             modelBuilder.Entity<Projekcija>().ToTable("Projekcija");
-            modelBuilder.Entity<Cijena>().HasNoKey();
+            modelBuilder.Entity<Cijena>().ToTable("Cijena");
             modelBuilder.Entity<Dvorana>().ToTable("Dvorana");
             modelBuilder.Entity<PregledKarata>().ToTable("PregledKarata");
 

@@ -4,6 +4,7 @@ using Cineverse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cineverse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250522121227_novaMigracija")]
+    partial class novaMigracija
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,6 +124,10 @@ namespace Cineverse.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RezervacijaId");
+
+                    b.HasIndex("SjedisteId");
+
                     b.ToTable("Karta", (string)null);
                 });
 
@@ -177,6 +184,8 @@ namespace Cineverse.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("KorisnikId");
+
                     b.ToTable("PregledKarata", (string)null);
                 });
 
@@ -206,6 +215,10 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DvoranaId");
+
+                    b.HasIndex("FilmId");
 
                     b.ToTable("Projekcija", (string)null);
                 });
@@ -257,6 +270,8 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DvoranaId");
 
                     b.ToTable("Sjediste", (string)null);
                 });
@@ -461,6 +476,66 @@ namespace Cineverse.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Cineverse.Models.Karta", b =>
+                {
+                    b.HasOne("Cineverse.Models.Rezervacija", "Rezervacija")
+                        .WithMany()
+                        .HasForeignKey("RezervacijaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cineverse.Models.Sjediste", "Sjediste")
+                        .WithMany()
+                        .HasForeignKey("SjedisteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rezervacija");
+
+                    b.Navigation("Sjediste");
+                });
+
+            modelBuilder.Entity("Cineverse.Models.PregledKarata", b =>
+                {
+                    b.HasOne("Cineverse.Models.Korisnik", "Korisnik")
+                        .WithMany()
+                        .HasForeignKey("KorisnikId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Korisnik");
+                });
+
+            modelBuilder.Entity("Cineverse.Models.Projekcija", b =>
+                {
+                    b.HasOne("Cineverse.Models.Dvorana", "Dvorana")
+                        .WithMany()
+                        .HasForeignKey("DvoranaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cineverse.Models.Film", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dvorana");
+
+                    b.Navigation("Film");
+                });
+
+            modelBuilder.Entity("Cineverse.Models.Sjediste", b =>
+                {
+                    b.HasOne("Cineverse.Models.Dvorana", "Dvorana")
+                        .WithMany()
+                        .HasForeignKey("DvoranaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dvorana");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
