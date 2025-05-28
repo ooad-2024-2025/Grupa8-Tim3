@@ -1,0 +1,48 @@
+﻿@model Cineverse.Models.Sjediste
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Sjediste</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Red" class="control-label"></label>
+                <input asp-for="Red" class="form-control" />
+                <span asp-validation-for="Red" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kolona" class="control-label"></label>
+                <input asp-for="Kolona" class="form-control" />
+                <span asp-validation-for="Kolona" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipSjedista" class="control-label"></label>
+                <select asp-for="TipSjedista" class="form-control"></select>
+                <span asp-validation-for="TipSjedista" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DvoranaId" class="control-label"></label>
+                <input asp-for="DvoranaId" class="form-control" />
+                <span asp-validation-for="DvoranaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

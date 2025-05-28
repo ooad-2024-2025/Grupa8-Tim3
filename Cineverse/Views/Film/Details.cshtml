@@ -1,0 +1,60 @@
+﻿@model Cineverse.Models.Film
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Film</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Zanr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Zanr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VrijemeTrajanja)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VrijemeTrajanja)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Uloge)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Uloge)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sinopsis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sinopsis)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reziser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reziser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Trailer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Trailer)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NazivFilma)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NazivFilma)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
