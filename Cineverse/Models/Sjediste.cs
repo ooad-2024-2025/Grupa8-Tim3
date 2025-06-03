@@ -10,7 +10,11 @@ namespace Cineverse.Models
         public int Id { get; set; }
         public int Red { get; set; }
         public int Kolona { get; set; }
-        public TipSjedista TipSjedista { get; set; }
+        [Display(Name = "Tip sjedista")]
+        [EnumDataType(typeof(TipSjedista))]
+       
+        public TipSjedista TipSjedista
+        { get; set; }
 
         [ForeignKey("Dvorana")]
         public int DvoranaId { get; set; }

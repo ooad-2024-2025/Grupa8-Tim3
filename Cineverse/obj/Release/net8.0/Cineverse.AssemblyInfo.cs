@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Cineverse-a47eeb4e-9922-4727-bf36-3ec3fa3f7ed0")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cineverse")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5144707bc1fa9cc9c36402c03a1f561922df9980")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cineverse")]

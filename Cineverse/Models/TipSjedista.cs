@@ -6,8 +6,11 @@ namespace Cineverse.Models
 {
 	public enum TipSjedista
 	{
-		VIP,
-		LOVEBOX,
-		REGULAR
+        [Display(Name = "VIP Sjediste")]
+        VIP,
+        [Display(Name = "LOVEBOX Sjediste")]
+        LOVEBOX,
+        [Display(Name = "REGULAR Sjediste")]
+        REGULAR
 	}
 }
