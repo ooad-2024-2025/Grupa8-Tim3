@@ -17,229 +17,229 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Cineverse
 build_property.RootNamespace = Cineverse
-build_property.ProjectDir = C:\Users\emira\Source\Repos\Grupa8-Tim3\Cineverse\
+build_property.ProjectDir = C:\Users\Lenovo\source\repos\Grupa8-Tim3\Cineverse\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\emira\Source\Repos\Grupa8-Tim3\Cineverse
+build_property.MSBuildProjectDirectory = C:\Users\Lenovo\source\repos\Grupa8-Tim3\Cineverse
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Cijena/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Cijena/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lqZW5hXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Cijena/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Cijena/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lqZW5hXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Cijena/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Cijena/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lqZW5hXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Cijena/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Cijena/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lqZW5hXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Cijena/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Cijena/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lqZW5hXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHZvcmFuYVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHZvcmFuYVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHZvcmFuYVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHZvcmFuYVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Dvorana/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHZvcmFuYVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Film/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Film/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlsbVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Film/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Film/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlsbVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Film/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Film/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlsbVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Film/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Film/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlsbVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Film/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Film/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlsbVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Home/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Home/Privacy.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Karta/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Karta/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FydGFcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Karta/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Karta/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FydGFcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Karta/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Karta/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FydGFcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Karta/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Karta/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FydGFcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Karta/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Karta/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FydGFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Korisnik/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtcQ3JlYXRlLmNzaHRtbA==
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/KorisnikKino/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtLaW5vXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Korisnik/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtcRGVsZXRlLmNzaHRtbA==
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/KorisnikKino/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtLaW5vXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Korisnik/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtcRGV0YWlscy5jc2h0bWw=
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/KorisnikKino/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtLaW5vXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Korisnik/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtcRWRpdC5jc2h0bWw=
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/KorisnikKino/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtLaW5vXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Korisnik/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtcSW5kZXguY3NodG1s
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/KorisnikKino/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29yaXNuaWtLaW5vXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ2xlZEthcmF0YVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ2xlZEthcmF0YVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ2xlZEthcmF0YVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ2xlZEthcmF0YVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/PregledKarata/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ2xlZEthcmF0YVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVrY2lqYVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVrY2lqYVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVrY2lqYVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVrY2lqYVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Projekcija/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVrY2lqYVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YWNpamFcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YWNpamFcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YWNpamFcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YWNpamFcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Rezervacija/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YWNpamFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Shared/Error.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Create.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2plZGlzdGVcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Delete.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2plZGlzdGVcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Details.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2plZGlzdGVcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Edit.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2plZGlzdGVcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Index.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Sjediste/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2plZGlzdGVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/_ViewImports.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/_ViewStart.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/emira/Source/Repos/Grupa8-Tim3/Cineverse/Views/Shared/_Layout.cshtml]
+[C:/Users/Lenovo/source/repos/Grupa8-Tim3/Cineverse/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-3kau9pm7zy

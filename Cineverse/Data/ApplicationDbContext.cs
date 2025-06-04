@@ -4,13 +4,12 @@ using Cineverse.Models;
 
 namespace Cineverse.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Korisnik>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        public DbSet<Korisnik> Korisnik { get; set; }
         public DbSet<Rezervacija> Rezervacija { get; set; }
         public DbSet<Film> Film { get; set; }
         public DbSet<Karta> Karta { get; set; }
@@ -35,5 +34,6 @@ namespace Cineverse.Data
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<Cineverse.Models.KorisnikKino> KorisnikKino { get; set; } = default!;
     }
 }

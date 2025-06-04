@@ -2,16 +2,19 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
-using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cineverse.Models
 {
-	public class Korisnik
-	{
-		[Key]
-		public int Id { get; set; }
+    public class Korisnik : IdentityUser
+    {
+        [Required(ErrorMessage = "Ime je obavezno!")]
+        [StringLength(50, ErrorMessage = "Ime ne smije imati više od 50 karaktera!")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
+        [DisplayName("Ime:")]
+        public string Ime { get; set; }
 
+        [Required(ErrorMessage = "Prezime je obavezno!")]
         [StringLength(50, ErrorMessage = "Prezime ne smije imati više od 50 karaktera!")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
         [DisplayName("Prezime:")]
@@ -23,33 +26,11 @@ namespace Cineverse.Models
         [Required(ErrorMessage = "Datum rođenja je obavezan!")]
         public DateTime DatumRodjenja { get; set; }
 
-        [DisplayName("Email:")]
-        [Required(ErrorMessage = "Email je obavezan!")]
-        [StringLength(100, ErrorMessage = "Email ne smije imati više od 100 karaktera!")]
-        [EmailAddress(ErrorMessage = "Unesite ispravan email!")]
-        public string Email { get; set; }
-
-
-
-        [Required(ErrorMessage = "Korisničko ime je obavezno!")]
-        [StringLength(30, MinimumLength = 4, ErrorMessage = "Korisničko ime mora imati između 4 i 30 karaktera!")]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Dozvoljena su samo slova, brojevi i donja crta!")]
-        [DisplayName("Korisničko ime:")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Lozinka je obavezna!")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Lozinka mora imati najmanje 6 karaktera!")]
-        [DataType(DataType.Password)]
-        [DisplayName("Lozinka:")]
-        public string Password { get; set; }
-
-
-        [StringLength(maximumLength: 50, ErrorMessage = "Ime ne smije imati vise od 50 karaktera!")]
-        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]  
-        [DisplayName("Ime:")]
-        public string Ime { get; set; }
-	}
+        // Email se nasleđuje od IdentityUser - ne override-ujemo ga
+        // Možete dodati dodatne validacije u Register akciji ili DTO
+    }
 }
+
 public class ValidateDate : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)

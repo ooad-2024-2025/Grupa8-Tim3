@@ -1,4 +1,5 @@
 using Cineverse.Data;
+using Cineverse.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
