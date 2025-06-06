@@ -6,25 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cineverse.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class trecaNovaMigracija : Migration
+    public partial class trecaTry : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Korisnik");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Email",
-                table: "AspNetUsers",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(256)",
-                oldMaxLength: 256,
-                oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "DatumRodjenja",
@@ -48,26 +36,11 @@ namespace Cineverse.Data.Migrations
                 maxLength: 50,
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.CreateTable(
-                name: "KorisnikKino",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KorisnikKino", x => x.Id);
-                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "KorisnikKino");
-
             migrationBuilder.DropColumn(
                 name: "DatumRodjenja",
                 table: "AspNetUsers");
@@ -79,16 +52,6 @@ namespace Cineverse.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "Prezime",
                 table: "AspNetUsers");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Email",
-                table: "AspNetUsers",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(256)",
-                oldMaxLength: 256);
 
             migrationBuilder.CreateTable(
                 name: "Korisnik",

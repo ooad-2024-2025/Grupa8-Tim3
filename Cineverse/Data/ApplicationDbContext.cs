@@ -22,7 +22,7 @@ namespace Cineverse.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Korisnik>().ToTable("Korisnik");
+            //modelBuilder.Entity<Korisnik>().ToTable("Korisnik");
             modelBuilder.Entity<Rezervacija>().ToTable("Rezervacija");
             modelBuilder.Entity<Film>().ToTable("Film");
             modelBuilder.Entity<Karta>().ToTable("Karta");
@@ -34,6 +34,5 @@ namespace Cineverse.Data
 
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<Cineverse.Models.KorisnikKino> KorisnikKino { get; set; } = default!;
     }
 }

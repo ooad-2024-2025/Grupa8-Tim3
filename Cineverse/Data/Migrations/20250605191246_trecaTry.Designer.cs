@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cineverse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250604125316_trecaNovaMigracija")]
-    partial class trecaNovaMigracija
+    [Migration("20250605191246_trecaTry")]
+    partial class trecaTry
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,7 +143,6 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -204,19 +203,6 @@ namespace Cineverse.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Cineverse.Models.KorisnikKino", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KorisnikKino");
                 });
 
             modelBuilder.Entity("Cineverse.Models.PregledKarata", b =>

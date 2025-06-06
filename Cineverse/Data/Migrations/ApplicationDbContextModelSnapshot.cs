@@ -136,7 +136,7 @@ namespace Cineverse.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DatumRodjenja")
+                    b.Property<DateTime?>("DatumRodjenja")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -147,7 +147,6 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Ime")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -175,7 +174,6 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Prezime")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -200,19 +198,6 @@ namespace Cineverse.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Cineverse.Models.KorisnikKino", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KorisnikKino");
                 });
 
             modelBuilder.Entity("Cineverse.Models.PregledKarata", b =>
