@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -20,12 +21,14 @@ namespace Cineverse.Controllers
         }
 
         // GET: Film
+        [Authorize(Roles = "Administrator,Korisnik, Kino radnik")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Film.ToListAsync());
         }
 
         // GET: Film/Details/5
+        [Authorize(Roles = "Administrator,Korisnik, Kino radnik")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +46,7 @@ namespace Cineverse.Controllers
             return View(film);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Film/Create
         public IActionResult Create()
         {
@@ -54,6 +58,7 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Zanr,VrijemeTrajanja,Uloge,Sinopsis,Reziser,Trailer,NazivFilma")] Film film)
         {
             if (ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace Cineverse.Controllers
             return View(film);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Film/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,6 +92,7 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Zanr,VrijemeTrajanja,Uloge,Sinopsis,Reziser,Trailer,NazivFilma")] Film film)
         {
             if (id != film.Id)
@@ -117,6 +124,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Film/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +145,7 @@ namespace Cineverse.Controllers
         // POST: Film/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var film = await _context.Film.FindAsync(id);

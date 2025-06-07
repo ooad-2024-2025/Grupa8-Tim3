@@ -42,11 +42,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CijenaId)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    @if (User.IsInRole("Administrator, Korisnik, Kino radnik"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <nobr>|</nobr>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <nobr>|</nobr>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <nobr>|</nobr>
+                    }
+                </td>
         </tr>
 }
     </tbody>

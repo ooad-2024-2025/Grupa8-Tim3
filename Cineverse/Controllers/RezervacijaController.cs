@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
+    [Authorize]
     public class RezervacijaController : Controller
     {
         private readonly ApplicationDbContext _context;
