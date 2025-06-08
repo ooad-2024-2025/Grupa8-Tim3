@@ -8,46 +8,37 @@ namespace Cineverse.Models
 {
     public class Korisnik : IdentityUser
     {
-
-        [Required(ErrorMessage = "Ime je obavezno!")]
-
-        /*[Required(ErrorMessage = "Ime je obavezno!")]
->>>>>>> Stashed changes
-        [StringLength(50, ErrorMessage = "Ime ne smije imati više od 50 karaktera!")]
-        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
-        */
         [DisplayName("Ime:")]
         public string? Ime { get; set; }
 
-        /*[Required(ErrorMessage = "Prezime je obavezno!")]
-        [StringLength(50, ErrorMessage = "Prezime ne smije imati više od 50 karaktera!")]
-        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
-        */
         [DisplayName("Prezime:")]
         public string? Prezime { get; set; }
 
-        /*[ValidateDate]
-        [DataType(DataType.Date)]
-        */
         [DisplayName("Datum rođenja:")]
-        //[Required(ErrorMessage = "Datum rođenja je obavezan!")]
         public DateTime? DatumRodjenja { get; set; }
 
-        // Email se nasleđuje od IdentityUser - ne override-ujemo ga
-        // Možete dodati dodatne validacije u Register akciji ili DTO
+        // Override the inherited properties to make them nullable if needed
+        public override string? PhoneNumber { get; set; }
+
+        // If you're having issues with other inherited properties, you might need to override them too
+        // But be careful as this can affect Identity functionality
     }
 }
 
 public class ValidateDate : ValidationAttribute
 {
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
-        if (value == null || !(value is DateTime))
+        if (value == null)
+        {
+            return ValidationResult.Success; // Allow null values
+        }
+
+        if (!(value is DateTime datumRodjenja))
         {
             return new ValidationResult("Neispravan datum rođenja.");
         }
 
-        DateTime datumRodjenja = (DateTime)value;
         DateTime danas = DateTime.Today;
         int godine = danas.Year - datumRodjenja.Year;
 
