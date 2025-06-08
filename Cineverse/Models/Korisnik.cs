@@ -8,7 +8,7 @@ namespace Cineverse.Models
 {
     public class Korisnik : IdentityUser
     {
-        //[Required(ErrorMessage = "Ime je obavezno!")]
+        [Required(ErrorMessage = "Ime je obavezno!")]
         [StringLength(50, ErrorMessage = "Ime ne smije imati više od 50 karaktera!")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
         [DisplayName("Ime:")]
