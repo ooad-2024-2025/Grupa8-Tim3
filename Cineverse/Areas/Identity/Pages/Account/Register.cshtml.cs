@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 
 namespace Cineverse.Areas.Identity.Pages.Account
 {
@@ -71,50 +72,42 @@ namespace Cineverse.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Ime je obavezno!")]
+            [StringLength(50, ErrorMessage = "Ime ne smije imati više od 50 karaktera!")]
+            [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
             [Display(Name = "Ime")]
             public string Name { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Prezime je obavezno!")]
+            [StringLength(50, ErrorMessage = "Prezime ne smije imati više od 50 karaktera!")]
+            [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
             [Display(Name = "Prezime")]
             public string LastName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Datum rođenja je obavezan!")]
+            [DataType(DataType.Date, ErrorMessage = "Datum mora biti u ispravnom formatu (dd.MM.yyyy)!")]
             [Display(Name = "Datum rođenja")]
-            public DateTime DateOfBirth { get; set; }
+            [ValidateDate]
+            public DateTime? DateOfBirth { get; set; }
 
-            [Required]
-            [EmailAddress]
+
+            [Required(ErrorMessage = "Email je obavezan!")]
+            [EmailAddress(ErrorMessage = "Unesite ispravnu email adresu!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [Display(Name = "Korisničko ime")]
-            public string username { get; set; }
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Lozinka je obavezna!")]
+            [StringLength(100, ErrorMessage = "Lozinka mora imati najmanje {2}, a najviše {1} karaktera.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Lozinka")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Potvrdi lozinku")]
             [Compare("Password", ErrorMessage = "Lozinke nisu iste!")]
             public string ConfirmPassword { get; set; }
         }
+
 
 
         public async Task OnGetAsync(string returnUrl = null)

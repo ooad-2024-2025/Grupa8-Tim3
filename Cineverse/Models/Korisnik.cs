@@ -8,20 +8,27 @@ namespace Cineverse.Models
 {
     public class Korisnik : IdentityUser
     {
+
         [Required(ErrorMessage = "Ime je obavezno!")]
+
+        /*[Required(ErrorMessage = "Ime je obavezno!")]
+>>>>>>> Stashed changes
         [StringLength(50, ErrorMessage = "Ime ne smije imati više od 50 karaktera!")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
+        */
         [DisplayName("Ime:")]
         public string? Ime { get; set; }
 
-        //[Required(ErrorMessage = "Prezime je obavezno!")]
+        /*[Required(ErrorMessage = "Prezime je obavezno!")]
         [StringLength(50, ErrorMessage = "Prezime ne smije imati više od 50 karaktera!")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Dozvoljeno je samo korištenje velikih, malih slova i razmaka!")]
+        */
         [DisplayName("Prezime:")]
         public string? Prezime { get; set; }
 
-        [ValidateDate]
+        /*[ValidateDate]
         [DataType(DataType.Date)]
+        */
         [DisplayName("Datum rođenja:")]
         //[Required(ErrorMessage = "Datum rođenja je obavezan!")]
         public DateTime? DatumRodjenja { get; set; }
