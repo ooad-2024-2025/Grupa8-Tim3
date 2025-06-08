@@ -61,3 +61,15 @@ label {
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
+
+.custom-orange-btn {
+    background-color: orange;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+

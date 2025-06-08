@@ -11,12 +11,11 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Cineverse-a47eeb4e-9922-4727-bf36-3ec3fa3f7ed0")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2069168a1a02687050b02cbf53ef2e9bbf0f4b8b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+265c3ceb418ba7f0055b9699ded944d8822c39cd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
