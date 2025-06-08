@@ -20,7 +20,7 @@ namespace Cineverse.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Administrator,Korisnik, Kino radnik")]
+        [Authorize]
         // GET: Dvorana
         public async Task<IActionResult> Index()
         {
@@ -28,7 +28,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Dvorana/Details/5
-        [Authorize(Roles = "Administrator,Korisnik, Kino radnik")]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

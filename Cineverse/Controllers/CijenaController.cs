@@ -21,14 +21,14 @@ namespace Cineverse.Controllers
         }
 
         // GET: Cijena
-        [Authorize(Roles = "Administrator,Kino radnik, Korisnik")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Cijena.ToListAsync());
         }
 
         // GET: Cijena/Details/5
-        [Authorize(Roles = "Administrator,Kino radnik, Korisnik")]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
