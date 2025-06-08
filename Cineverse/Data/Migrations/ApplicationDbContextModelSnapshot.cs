@@ -76,6 +76,10 @@ namespace Cineverse.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Poster")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Reziser")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,8 +151,7 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Ime")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -174,8 +177,7 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Prezime")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -15,5 +15,6 @@ namespace Cineverse.Models
         public string Reziser { get; set; }
         public string Trailer { get; set; }
         public string NazivFilma { get; set; }
+        public string Poster { get; set; }
     }
 }
