@@ -56,16 +56,20 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RezervacijaId,SjedisteId")] Karta karta)
+        public async Task<IActionResult> Create([Bind("RezervacijaId,SjedisteId")] Karta karta)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(karta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                TempData["SuccessMessage"] = "Karta je uspješno rezervisana";
+                return RedirectToAction("Details", new { id = karta.Id });
             }
+
             return View(karta);
         }
+
 
         // GET: Karta/Edit/5
         public async Task<IActionResult> Edit(int? id)
