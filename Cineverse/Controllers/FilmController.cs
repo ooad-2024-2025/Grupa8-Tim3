@@ -21,14 +21,13 @@ namespace Cineverse.Controllers
         }
 
         // GET: Film
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Film.ToListAsync());
         }
 
+
         // GET: Film/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,6 +41,11 @@ namespace Cineverse.Controllers
             {
                 return NotFound();
             }
+
+            string apiKey = "bda97661";
+            
+            string movieTitle = film.NazivFilma;
+            string url = $"http://www.omdbapi.com/?apikey={apiKey}&t={Uri.EscapeDataString(movieTitle)}";
 
             return View(film);
         }

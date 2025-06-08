@@ -6,23 +6,9 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>-->
-
 @{
     ViewData["Title"] = "Home Page";
-
     var movies = ViewBag.MovieData as List<System.Text.Json.JsonElement>;
-    var bosnianTitles = new Dictionary<string, string>
-    {
-     { "Barbie", "Barbi" },
-     { "Barbie in the Nutcracker", "Barbi u Krcko Oraščiću" },
-     { "Barbie as Rapunzel", "Barbi Zlatokosa" },
-     { "Barbie of Swan Lake", "Barbi na Labuđem jezeru" },
-     { "Barbie as The Princess and the Pauper", "Barbi kao Princeza i Prosjakinja" },
-     { "Barbie in the 12 Dancing Princesses", "Barbi i 12 rasplesanih princeza" },
-     { "Barbie and the Magic of Pegasus 3-D", "Barbi i čarolija Pegaza" },
-     { "Barbie: Fairytopia", "Barbi: Fairytopia" }
-     
- };
 }
 
 @if (movies != null)
@@ -30,14 +16,13 @@
     <div class="row">
         @foreach (var movie in movies)
         {
-            var title = movie.GetProperty("Title").GetString();
-            var poster = movie.GetProperty("Poster").GetString();
-            var bosnianTitle = bosnianTitles.ContainsKey(title) ? bosnianTitles[title] : title;
+            var title = movie.GetProperty("title").GetString();
+            var poster = movie.GetProperty("poster_path").GetString();
             <div class="col-md-3 mb-4">
                 <div class="card h-100">
-                    <img src="@poster" class="card-img-top" alt="@bosnianTitle" style="height:350px;object-fit:cover;" />
+                    <img src="@("https://image.tmdb.org/t/p/w500" + poster)" class="card-img-top" alt="@title" style="height:350px;object-fit:cover;" />
                     <div class="card-body">
-                        <h5 class="card-title">@bosnianTitle</h5>
+                        <h5 class="card-title">@title</h5>
                     </div>
                 </div>
             </div>
@@ -48,4 +33,5 @@ else
 {
     <p>Nema rezultata.</p>
 }
+
 

@@ -17,9 +17,9 @@ namespace Cineverse.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string apiKey = "bda97661";
-            string searchTerm = "Barbie"; // ili bilo koji drugi pojam iz tvoje liste
-            string url = $"http://www.omdbapi.com/?apikey={apiKey}&s={searchTerm}";
+            //string apiKey = "bda97661";
+            string apiKey = "bfc43b762a36bbf37e28b310805b494c";
+            string url = $"https://api.themoviedb.org/3/movie/popular?api_key=bfc43b762a36bbf37e28b310805b494c&language=hr";
 
             using (HttpClient client = new HttpClient())
             {
@@ -30,9 +30,10 @@ namespace Cineverse.Controllers
                     {
                         string responseData = await response.Content.ReadAsStringAsync();
                         var jsonDoc = JsonDocument.Parse(responseData);
-                        ViewBag.MovieData = jsonDoc.RootElement.GetProperty("Search").EnumerateArray().Take(8).ToList();
+                        ViewBag.MovieData = jsonDoc.RootElement.GetProperty("results").EnumerateArray().Take(8).ToList();
                         return View();
                     }
+
                     else
                     {
                         ViewBag.ErrorMessage = $"Greška: {response.StatusCode}";
