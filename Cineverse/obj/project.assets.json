@@ -8515,23 +8515,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
+    "C:\\Users\\DT User2\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
+      "projectUniqueName": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
       "projectName": "Cineverse",
-      "projectPath": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\source\\repos\\Grupa8-Tim3\\Cineverse\\obj\\",
+      "projectPath": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\Cineverse.csproj",
+      "packagesPath": "C:\\Users\\DT User2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\DT User2\\Source\\Repos\\Grupa8-Tim3\\Cineverse\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DT User2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

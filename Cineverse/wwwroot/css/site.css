@@ -1,20 +1,20 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 /*/body {
@@ -28,3 +28,38 @@ body {
     background-position: center center;
 }
 
+.container input,
+.container textarea,
+.container select,
+form input,
+form textarea,
+form select {
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid white !important;
+    border-radius: 4px;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    outline: none !important;
+}
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: white !important;
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.8) !important;
+        outline: none !important;
+    }
+
+/*input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}*/
+
+label {
+    color: white !important;
+}
+
+/* Bijela ikonica za date picker (Chrome, Edge, Safari) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
