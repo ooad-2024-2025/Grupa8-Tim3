@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.CijenaId)
             </td>
                 <td>
-                    @if (User.IsInRole("Administrator, Korisnik, Kino radnik"))
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <nobr>|</nobr>
@@ -53,6 +53,7 @@
                         <nobr>|</nobr>
                     }
                 </td>
+
         </tr>
 }
     </tbody>
