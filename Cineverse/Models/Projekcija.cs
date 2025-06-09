@@ -12,8 +12,8 @@ namespace Cineverse.Models
         [ForeignKey("Dvorana")]
         public int DvoranaId { get; set; }
         public string Lokacija { get; set; } = string.Empty;
-        public DateTime Datum { get; set; }
-        public string Vrijeme { get; set; } = string.Empty;
+        public DateOnly Datum { get; set; }
+        public TimeOnly Vrijeme { get; set; }
 
         [ForeignKey("Film")]
         public int FilmId { get; set; }

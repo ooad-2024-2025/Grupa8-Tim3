@@ -73,3 +73,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
+
+.card-img-top {
+    width: auto;
+    height: 500px;
+}
+
+.card {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.card-title {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+a.col-md-3, a.col-md-3:hover, a.col-md-3:focus, a.col-md-3:active {
+    background: transparent !important;
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: inherit;
+}
+

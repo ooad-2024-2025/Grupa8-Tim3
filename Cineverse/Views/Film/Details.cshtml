@@ -4,63 +4,83 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Right Column: Poster -->
+        <div class="col-md-4 text-center">
+            @if (!string.IsNullOrEmpty(Model?.Poster))
+            {
+                <img src="@Model.Poster" class="img-fluid rounded" alt="Poster" />
+            }
+            else
+            {
+                <p>No poster available</p>
+            }
+        </div>
 
-<div>
-    <h4>Film</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Zanr)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Zanr)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VrijemeTrajanja)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VrijemeTrajanja)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Uloge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uloge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sinopsis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sinopsis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reziser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reziser)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Trailer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Trailer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NazivFilma)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NazivFilma)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Poster)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Poster)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        <!-- Left Column: Film Details -->
+        <div class="col-md-8">
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">Naziv filma</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.NazivFilma)</dd>
+
+                <dt class="col-sm-4">Žanr filma</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Zanr)</dd>
+
+                <dt class="col-sm-4">Vrijeme trajanja</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VrijemeTrajanja)</dd>
+
+                <dt class="col-sm-4">Uloge</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Uloge)</dd>
+
+                <dt class="col-sm-4">Režiser</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Reziser)</dd>
+
+                <dt class="col-sm-4">Sinopsis</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Sinopsis)</dd>
+
+                <dt class="col-sm-4">Trailer</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model?.Trailer))
+                    {
+                        <a href="@Model.Trailer" target="_blank">Pogledaj trailer</a>
+                    }
+                    else
+                    {
+                        <p>No trailer available</p>
+                    }
+                </dd>
+            </dl>
+
+            <!-- Projekcije sekcija -->
+            <div class="row mt-4">
+                <h4>Projekcije</h4>
+                <hr />
+                @if (ViewBag.Projekcije != null && ((IEnumerable<dynamic>)ViewBag.Projekcije).Any())
+                {
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center;">
+                        @foreach (var projekcija in (IEnumerable<dynamic>)ViewBag.Projekcije)
+                        {
+                            <a class="col-md-3 mb-4" asp-controller="Sjediste" asp-action="Odabir" asp-route-projekcijaId="@projekcija.Id"                               style="text-decoration: none; color: inherit;">
+                                <div class="list-group-item" style="min-width: 150px; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+                                    <strong>Vrijeme:</strong> @projekcija.Vrijeme.ToString(@"hh\:mm") <br />
+                                    <strong>Dvorana:</strong> @projekcija.DvoranaNaziv
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>Trenutno nema projekcija za ovaj film.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>

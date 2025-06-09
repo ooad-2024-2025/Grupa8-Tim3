@@ -1,0 +1,10 @@
+﻿@{
+    var projekcija = ViewBag.Projekcija as Cineverse.Models.Projekcija;
+    var dvorana = ViewBag.Dvorana as Cineverse.Models.Dvorana;
+    var film = ViewBag.Film as Cineverse.Models.Film;
+}
+
+<div style="display:flex; gap:20px; align-items:center;">
+    <div><strong>Film:</strong> @film.NazivFilma</div>
+    <div><strong>Sala:</strong> @dvorana.NazivDvorane</div>
+</div>
