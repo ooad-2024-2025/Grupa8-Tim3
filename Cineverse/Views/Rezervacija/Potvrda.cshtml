@@ -1,0 +1,15 @@
+﻿@model Cineverse.Models.PotvrdaRezervacijeViewModel
+
+<h2>Film: @Model.Film</h2>
+<p>Dvorana: @Model.Dvorana</p>
+<p>Sjedista:</p>
+<ul>
+    @foreach (var s in Model.Sjedista)
+    {
+        <li>Red: @s.Red, Kolona: @s.Kolona</li>
+    }
+</ul>
+<p>Osnovna cijena: @Model.OsnovnaCijena.ToString("0.00") KM</p>
+<p>Popust: @((Model.Popust * 100).ToString("0.00"))%</p>
+<p>Ukupna cijena: @Model.UkupnaCijena.ToString("0.00") KM</p>
+<p>Broj sjedista: @Model.BrojSjedista</p>

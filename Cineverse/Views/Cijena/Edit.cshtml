@@ -19,11 +19,6 @@
                 <span asp-validation-for="OsnovnaCijena" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Popust" class="control-label"></label>
-                <input asp-for="Popust" class="form-control" />
-                <span asp-validation-for="Popust" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="FilmId" class="control-label"></label>
                 <input asp-for="FilmId" class="form-control" />
                 <span asp-validation-for="FilmId" class="text-danger"></span>
@@ -39,6 +34,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

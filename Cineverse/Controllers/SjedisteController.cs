@@ -24,23 +24,21 @@ namespace Cineverse.Controllers
         [Authorize]
         public async Task<IActionResult> Odabir(int projekcijaId)
         {
-            // uzimam projekciju na osnovu id-a
             var projekcija = await _context.Projekcija
                 .FirstOrDefaultAsync(p => p.Id == projekcijaId);
 
             if (projekcija == null)
                 return NotFound();
 
-            // uzimamo film i dvoranu u kojoj se prikazuje
             var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
             if (dvorana == null) return NotFound();
 
             var film = await _context.Film.FindAsync(projekcija.FilmId);
 
-            // trazim sva sjedista u toj dvorani
             var sjedista = await _context.Sjediste
                 .Where(s => s.DvoranaId == projekcija.DvoranaId)
                 .ToListAsync();
+
 
             var zauzetaSjedisteId = await _context.Karta
                 .Join(_context.Rezervacija,
@@ -57,10 +55,11 @@ namespace Cineverse.Controllers
             ViewBag.Sjedista = sjedista;
             ViewBag.Zauzeta = zauzetaSjedisteId;
             ViewBag.Kapacitet = dvorana.Kapacitet;
+            ViewBag.ProjekcijaId = projekcija.Id;
+            ViewBag.SjedisteId = null;
 
             return View("Odabir");
         }
-
 
         // GET: Sjediste
         [Authorize]

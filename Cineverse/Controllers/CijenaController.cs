@@ -54,7 +54,7 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,OsnovnaCijena,Popust,FilmId")] Cijena cijena)
+        public async Task<IActionResult> Create([Bind("Id,OsnovnaCijena,FilmId")] Cijena cijena)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,OsnovnaCijena,Popust,FilmId")] Cijena cijena)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,OsnovnaCijena,FilmId")] Cijena cijena)
         {
             if (id != cijena.Id)
             {

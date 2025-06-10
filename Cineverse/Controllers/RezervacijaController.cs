@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -17,6 +18,99 @@ namespace Cineverse.Controllers
         public RezervacijaController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Potvrda(int projekcijaId, List<int> odabranaSjedista)
+        {
+            if (odabranaSjedista == null || !odabranaSjedista.Any())
+            {
+                return NotFound();
+            }
+
+            var projekcija = await _context.Projekcija
+                .FirstOrDefaultAsync(p => p.Id == projekcijaId);
+            if (projekcija == null) return NotFound("Projekcija nije pronađena.");
+
+            var dvorana = await _context.Dvorana
+                .FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
+            var film = await _context.Film
+                .FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
+            if (dvorana == null || film == null) return NotFound("Dvorana ili film nije pronađen.");
+
+            var cijena = await _context.Cijena
+                .FirstOrDefaultAsync(c => c.FilmId == film.Id);
+            if (cijena == null) return NotFound("Cijena nije pronađena.");
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var korisnik = await _context.Users
+                .FirstOrDefaultAsync(k => k.Id == userId);
+
+            if (korisnik == null)
+                return Unauthorized();
+
+            decimal popustProcenat = 0m;
+
+            if (korisnik.DatumRodjenja == null)
+            {
+                popustProcenat = 0m;
+            }
+            else
+            {
+                var danas = DateTime.Today;
+                var godinaRodjenja = korisnik.DatumRodjenja.Value;
+                int godine = danas.Year - godinaRodjenja.Year;
+                if (godinaRodjenja > danas.AddYears(-godine))
+                    godine--;
+
+                if (korisnik.Email.Contains("kinoradnik"))
+                {
+                    popustProcenat = 0.10m;
+                }
+                else if (godine >= 65)
+                {
+                    popustProcenat = 0.30m;
+                }
+                else if (godine >= 15 && godine <= 26)
+                {
+                    popustProcenat = 0.15m;
+                }
+            }
+
+            var ukupnaCijena = (decimal)cijena.OsnovnaCijena * (1 - popustProcenat) * odabranaSjedista.Count;
+
+            var sjedistaInfo = new List<SjedisteInfo>();
+            foreach (var sjedisteId in odabranaSjedista)
+            {
+                var sjediste = await _context.Sjediste
+                    .FirstOrDefaultAsync(s => s.Id == sjedisteId);
+                if (sjediste != null)
+                {
+                    sjedistaInfo.Add(new SjedisteInfo
+                    {
+                        Red = sjediste.Red,
+                        Kolona = sjediste.Kolona
+                    });
+                }
+            }
+
+            var model = new PotvrdaRezervacijeViewModel
+            {
+                Film = film.NazivFilma,
+                Dvorana = dvorana.NazivDvorane,
+                Sjedista = sjedistaInfo,
+                OsnovnaCijena = (decimal)cijena.OsnovnaCijena,
+                Popust = popustProcenat,
+                UkupnaCijena = ukupnaCijena,
+                BrojSjedista = odabranaSjedista.Count
+            };
+
+            ViewBag.ProjekcijaId = projekcijaId;
+            ViewBag.OdabranaSjedista = odabranaSjedista;
+
+            return View(model);
+
         }
 
         // GET: Rezervacija
