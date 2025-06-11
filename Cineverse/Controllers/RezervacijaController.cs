@@ -116,6 +116,47 @@ namespace Cineverse.Controllers
 
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> KreirajRezervaciju(int projekcijaId, List<int> odabranaSjedista)
+        {
+            try
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+
+                var projekcija = await _context.Projekcija
+                    .FirstOrDefaultAsync(p => p.Id == projekcijaId);
+
+                var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
+                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.FilmId == film.Id);
+
+                // kreiranje nove rezervacije
+                var novaRezervacija = new Rezervacija
+                {
+                    ProjekcijaId = projekcijaId,
+                    KorisnikId = userId,
+                    CijenaId = cijena.Id,
+                    Status = "Potvrđena"
+                };
+
+                // dodavanje rezervacije u bazu
+                _context.Rezervacija.Add(novaRezervacija);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Rezervacija je uspješno kreirana!";
+                return RedirectToAction("Uspjeh", "Karta");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Došlo je do greške prilikom kreiranja rezervacije.";
+                return RedirectToAction("Potvrda", new { projekcijaId = projekcijaId, odabranaSjedista = odabranaSjedista });
+            }
+        }
+
         // GET: Rezervacija
         public async Task<IActionResult> Index()
         {
