@@ -21,6 +21,67 @@ namespace Cineverse.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> kreirajKartu(int rezervacijaId, List<int> sjedista)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            // Ispravka: trebamo dohvatiti rezervaciju, ne film
+            var rezervacija = await _context.Rezervacija.FirstOrDefaultAsync(r => r.Id == rezervacijaId);
+            if (rezervacija == null)
+            {
+                TempData["Error"] = "Rezervacija nije pronađena.";
+                return RedirectToAction("Index");
+            }
+
+            // Provjeri da li je korisnik vlasnik rezervacije
+            if (rezervacija.KorisnikId != userId)
+            {
+                return Forbid();
+            }
+
+            if (sjedista == null || !sjedista.Any())
+            {
+                TempData["Error"] = "Morate odabrati sjedišta.";
+                return RedirectToAction("Details", new { id = rezervacijaId });
+            }
+
+            try
+            {
+                // Kreiranje karata za svako odabrano sjedište
+                foreach (var sjedisteId in sjedista)
+                {
+                    // Provjeri da li sjedište već ima kartu za ovu rezervaciju
+                    var postojecaKarta = await _context.Karta
+                        .FirstOrDefaultAsync(k => k.RezervacijaId == rezervacijaId && k.SjedisteId == sjedisteId);
+
+                    if (postojecaKarta == null)
+                    {
+                        var karta = new Karta
+                        {
+                            RezervacijaId = rezervacijaId,
+                            SjedisteId = sjedisteId
+                        };
+                        _context.Karta.Add(karta);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Karte su uspješno kreirane!";
+                return RedirectToAction("Details", new { id = rezervacijaId });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Došlo je do greške prilikom kreiranja karata.";
+                return RedirectToAction("Details", new { id = rezervacijaId });
+            }
+        }
+
         // GET: Karta
         public async Task<IActionResult> Index()
         {

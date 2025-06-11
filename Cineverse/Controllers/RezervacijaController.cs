@@ -29,6 +29,22 @@ namespace Cineverse.Controllers
                 return NotFound();
             }
 
+            var zauzetaSjedisteId = await _context.Karta
+                .Join(_context.Rezervacija,
+                      karta => karta.RezervacijaId,
+                      rezervacija => rezervacija.Id,
+                      (karta, rezervacija) => new { karta.SjedisteId, rezervacija.ProjekcijaId })
+                .Where(x => x.ProjekcijaId == projekcijaId)
+                .Select(x => x.SjedisteId)
+                .ToListAsync();
+
+            var nedostupnaSjedista = odabranaSjedista.Where(s => zauzetaSjedisteId.Contains(s)).ToList();
+            if (nedostupnaSjedista.Any())
+            {
+                TempData["Error"] = "Neka od odabranih sjedišta su već rezervirana. Molimo odaberite druga sjedišta.";
+                return RedirectToAction("Odabir", "Sjediste", new { projekcijaId = projekcijaId });
+            }
+
             var projekcija = await _context.Projekcija
                 .FirstOrDefaultAsync(p => p.Id == projekcijaId);
             if (projekcija == null) return NotFound("Projekcija nije pronađena.");
@@ -113,7 +129,6 @@ namespace Cineverse.Controllers
             ViewBag.OdabranaSjedista = odabranaSjedista;
 
             return View(model);
-
         }
 
         [Authorize]
@@ -128,32 +143,74 @@ namespace Cineverse.Controllers
                     return Unauthorized();
                 }
 
+                if (odabranaSjedista == null || !odabranaSjedista.Any())
+                {
+                    TempData["Error"] = "Niste odabrali sjedišta.";
+                    return RedirectToAction("Odabir", "Sjediste", new { projekcijaId = projekcijaId });
+                }
+
+                var zauzetaSjedisteId = await _context.Karta
+                    .Join(_context.Rezervacija,
+                          karta => karta.RezervacijaId,
+                          rezervacija => rezervacija.Id,
+                          (karta, rezervacija) => new { karta.SjedisteId, rezervacija.ProjekcijaId })
+                    .Where(x => x.ProjekcijaId == projekcijaId)
+                    .Select(x => x.SjedisteId)
+                    .ToListAsync();
+
+                var nedostupnaSjedista = odabranaSjedista.Where(s => zauzetaSjedisteId.Contains(s)).ToList();
+                if (nedostupnaSjedista.Any())
+                {
+                    TempData["Error"] = "Neka od odabranih sjedišta su već rezervirana. Molimo odaberite druga sjedišta.";
+                    return RedirectToAction("Odabir", "Sjediste", new { projekcijaId = projekcijaId });
+                }
+
                 var projekcija = await _context.Projekcija
                     .FirstOrDefaultAsync(p => p.Id == projekcijaId);
 
                 var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
                 var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.FilmId == film.Id);
 
-                // kreiranje nove rezervacije
-                var novaRezervacija = new Rezervacija
+                try
                 {
-                    ProjekcijaId = projekcijaId,
-                    KorisnikId = userId,
-                    CijenaId = cijena.Id,
-                    Status = "Potvrđena"
-                };
+                    // Kreiranje nove rezervacije
+                    var novaRezervacija = new Rezervacija
+                    {
+                        ProjekcijaId = projekcijaId,
+                        KorisnikId = userId,
+                        CijenaId = cijena.Id,
+                        Status = "Potvrđena"
+                    };
 
-                // dodavanje rezervacije u bazu
-                _context.Rezervacija.Add(novaRezervacija);
-                await _context.SaveChangesAsync();
+                    // dodavanje rezervacije u bazu
+                    _context.Rezervacija.Add(novaRezervacija);
+                    await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Rezervacija je uspješno kreirana!";
-                return RedirectToAction("Uspjeh", "Karta");
+                    // Kreiranje karata za svako odabrano sjedište
+                    foreach (var sjedisteId in odabranaSjedista)
+                    {
+                        var karta = new Karta
+                        {
+                            RezervacijaId = novaRezervacija.Id,
+                            SjedisteId = sjedisteId
+                        };
+                        _context.Karta.Add(karta);
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    TempData["Success"] = "Rezervacija je uspješno kreirana!";
+                    return RedirectToAction("Details", new { id = novaRezervacija.Id });
+                }
+                catch
+                {
+                    throw;
+                }
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "Došlo je do greške prilikom kreiranja rezervacije.";
-                return RedirectToAction("Potvrda", new { projekcijaId = projekcijaId, odabranaSjedista = odabranaSjedista });
+                return RedirectToAction("Odabir", "Sjediste", new { projekcijaId = projekcijaId });
             }
         }
 

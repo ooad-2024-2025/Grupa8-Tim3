@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a12264606d3aea325a66323ad0e2ebf6e956266")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e29face49995d76f3d855d2cdeb1aee45a3a2d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cineverse")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

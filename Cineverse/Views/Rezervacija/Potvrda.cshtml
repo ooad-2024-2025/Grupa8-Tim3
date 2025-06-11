@@ -1,20 +1,13 @@
 ﻿@model Cineverse.Models.PotvrdaRezervacijeViewModel
-
-
 @{
     ViewData["Title"] = "Potvrda rezervacije";
     var sjedistaTekst = string.Join(", ", Model.Sjedista.Select(s => $"Red {s.Red} Sjedište {s.Kolona}"));
-    var datumProjekcije = DateTime.Now; // Ako postoji tačan datum projekcije, koristi njega iz modela
 }
 
-@if (TempData["SuccessMessage"] != null)
+@if (TempData["Error"] != null)
 {
-    <div style="background-color: #d4edda; color: #155724; padding: 1rem; margin: 1rem 0; border-radius: 5px; border: 1px solid #c3e6cb;">
-        <strong>@TempData["SuccessMessage"]</strong>
-        <br /><br />
-        <a href="@Url.Action("Index", "Karta")" style="display: inline-block; padding: 10px 20px; background-color: #FFA500; color: black; text-decoration: none; border-radius: 5px;">
-            Pregled Karti
-        </a>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 5px; border: 1px solid #f5c6cb;">
+        <strong>Greška:</strong> @TempData["Error"]
     </div>
 }
 
@@ -22,52 +15,162 @@
     <div>
         @if (!string.IsNullOrEmpty(Model?.Poster))
         {
-            <img src="@Model.Poster" alt="@Model.Film Poster" style="width: 300px; height: 400; border-radius: 12px;" />
+            <img src="@Model.Poster" alt="@Model.Film Poster" style="width: 300px; height: 400px; border-radius: 12px; object-fit: cover;" />
         }
         else
         {
-            <p>No poster available</p>
+            <div style="width: 300px; height: 400px; border-radius: 12px; background-color: #333; display: flex; align-items: center; justify-content: center; color: #999;">
+                <p>Poster nije dostupan</p>
+            </div>
         }
     </div>
-    
-   <!-- <div>
-        <img src="@Model.Poster" alt="@Model.Film Poster" style="width: 250px; height: 450px; border-radius: 12px;" />
-    </div>-->
+
     <div style="flex: 1;">
-        <h1 style="color: #FFA500;">@Model.Film</h1>
-        <p><strong>Cineverse Sarajevo</strong></p>
-        <p>@Model.Datum.ToString("dd.M.yyyy") </p>
-        <p>@Model.Vrijeme.ToString("HH:mm") </p>
-        <!--<p>2D, Sinhronizovano</p>-->
+        <h1 style="color: #FFA500; margin-bottom: 1rem;">@Model.Film</h1>
+        <div style="margin-bottom: 1rem;">
+            <p style="margin: 0.5rem 0;"><strong>Cineverse Sarajevo - @Model.Dvorana</strong></p>
+            <p style="margin: 0.5rem 0;"><strong>Datum:</strong> @Model.Datum.ToString("dd.MM.yyyy")</p>
+            <p style="margin: 0.5rem 0;"><strong>Vrijeme:</strong> @Model.Vrijeme.ToString("HH:mm")</p>
+        </div>
 
-        <hr />
+        <hr style="border-color: #444; margin: 1.5rem 0;" />
 
-        <p><strong>SJEDIŠTA:</strong> @sjedistaTekst</p>
+        <div style="margin-bottom: 1.5rem;">
+            <p style="margin: 0.5rem 0;"><strong>ODABRANA SJEDIŠTA:</strong></p>
+            <p style="margin: 0.5rem 0; color: #FFA500;">@sjedistaTekst</p>
+        </div>
 
-        <hr />
+        <hr style="border-color: #444; margin: 1.5rem 0;" />
 
-        <p>Regular: @Model.BrojSjedista x @Model.OsnovnaCijena KM</p>
-        <p>Popust: @(Model.Popust * 100)%</p>
-        <p><strong>Iznos: @Model.UkupnaCijena KM</strong></p>
-
-        <br />
-        <form asp-action="KreirajRezervaciju" method="post">
-            @for (int i = 0; i < Model.Sjedista.Count; i++)
+        <div style="margin-bottom: 2rem;">
+            <p style="margin: 0.5rem 0;">Broj karata: @Model.BrojSjedista</p>
+            <p style="margin: 0.5rem 0;">Cijena po karti: @Model.OsnovnaCijena.ToString("F2") KM</p>
+            @if (Model.Popust > 0)
             {
-                <input type="hidden" name="Sjedista[@i].Red" value="@Model.Sjedista[i].Red" />
-                <input type="hidden" name="Sjedista[@i].Kolona" value="@Model.Sjedista[i].Kolona" />
+                <p style="margin: 0.5rem 0; color: #28a745;">Popust: @((Model.Popust * 100).ToString("F0"))%</p>
+            }
+            <p style="margin: 0.5rem 0; font-size: 1.2rem; color: #FFA500;"><strong>UKUPNO: @Model.UkupnaCijena.ToString("F2") KM</strong></p>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            @if (ViewBag.OdabranaSjedista != null)
+            {
+                var odabranaSjedista = ViewBag.OdabranaSjedista as List<int>;
+                if (odabranaSjedista != null && odabranaSjedista.Any())
+                {
+                    <!-- Forma za kreiranje rezervacije -->
+                    <form asp-action="KreirajRezervaciju" method="post" id="kreirajRezervacijuForm" style="display: inline;">
+                        <input type="hidden" name="projekcijaId" value="@ViewBag.ProjekcijaId" />
+
+                        @for (int i = 0; i < odabranaSjedista.Count; i++)
+                        {
+                            <input type="hidden" name="odabranaSjedista[@i]" value="@odabranaSjedista[i]" />
+                        }
+                    </form>
+
+                    <!-- Forma za kreiranje karata -->
+                    <form asp-action="kreirajKartu" method="post" id="kreirajKartuForm" style="display: none;">
+                        <input type="hidden" name="rezervacijaId" id="rezervacijaIdInput" value="" />
+
+                        @for (int i = 0; i < odabranaSjedista.Count; i++)
+                        {
+                            <input type="hidden" name="sjedista[@i]" value="@odabranaSjedista[i]" />
+                        }
+                    </form>
+                }
             }
 
-            @foreach (var sjedisteId in (List<int>)ViewBag.OdabranaSjedista)
-            {
-                <input type="hidden" name="odabranaSjedista" value="@sjedisteId" />
-            }
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button type="button" id="rezervisiBtn"
+                        style="padding: 12px 24px; background-color: #FFA500; color: black; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: background-color 0.3s;"
+                        onmouseover="this.style.backgroundColor='#e8940a'"
+                        onmouseout="this.style.backgroundColor='#FFA500'">
+                    Rezerviši karte →
+                </button>
 
-            <input type="hidden" name="projekcijaId" value="@ViewBag.ProjekcijaId" />
+                <a href="@Url.Action("Odabir", "Sjediste", new { projekcijaId = ViewBag.ProjekcijaId })"
+                   style="padding: 12px 24px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;"
+                   onmouseover="this.style.backgroundColor='#545b62'"
+                   onmouseout="this.style.backgroundColor='#6c757d'">
+                    ← Nazad na odabir sjedišta
+                </a>
+            </div>
+        </div>
 
-            <button type="submit" style="padding: 10px 20px; background-color: #FFA500; color: black; border: none; border-radius: 5px; cursor: pointer;">
-                Rezerviši karte →
-            </button>
-        </form>
+        @* Dodatne informacije *@
+        <!---<div style="margin-top: 2rem; padding: 1rem; background-color: #1a1a1a; border-radius: 5px; border-left: 4px solid #FFA500;">
+            <p style="margin: 0; font-size: 0.9rem; color: #ccc;">
+                <strong>Napomena:</strong> Nakon potvrde rezervacije, sjedišta će biti rezervirana za vas.
+                Molimo da se pojavite u kinu najmanje 15 minuta prije početka projekcije.
+            </p>
+        </div>-->
     </div>
 </div>
+
+<script>
+    document.getElementById('rezervisiBtn').addEventListener('click', async function() {
+        const btn = this;
+        const originalText = btn.innerHTML;
+
+        // Promijeni dugme da pokaže loading
+        btn.innerHTML = 'Rezerviram...';
+        btn.disabled = true;
+        btn.style.backgroundColor = '#999';
+
+        try {
+            // Prvo kreiraj rezervaciju
+            const rezervacijaForm = document.getElementById('kreirajRezervacijuForm');
+            const formData = new FormData(rezervacijaForm);
+
+            const response = await fetch('@Url.Action("KreirajRezervaciju", "Rezervacija")', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                }
+            });
+
+            if (response.ok) {
+                // Ako je rezervacija uspješno kreirana, preusmjeri na rezultat
+                const result = await response.text();
+
+                // Provjeri da li je odgovor redirect ili sadrži ID rezervacije
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    // Pokušaj da izvučeš ID rezervacije iz odgovora ili preusmjeri na index
+                    window.location.href = '@Url.Action("Index", "Rezervacija")';
+                }
+            } else {
+                throw new Error('Greška prilikom kreiranja rezervacije');
+            }
+
+        } catch (error) {
+            console.error('Greška:', error);
+            alert('Došlo je do greške prilikom rezervacije. Molimo pokušajte ponovo.');
+
+            // Vrati dugme u normalno stanje
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            btn.style.backgroundColor = '#FFA500';
+        }
+    });
+</script>
+
+<style>
+
+        flex-direction: column !important;
+        padding: 1rem !important;
+    }
+
+    .details-container > div:first-child {
+        text-align: center;
+    }
+
+    .details-container img {
+        width: 200px !important;
+        height: 300px !important;
+    }
+
+    }
+</style>
