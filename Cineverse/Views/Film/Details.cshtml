@@ -63,7 +63,8 @@
                         @foreach (var projekcija in (IEnumerable<dynamic>)ViewBag.Projekcije)
                         {
                             <a class="col-md-3 mb-4" asp-controller="Sjediste" asp-action="Odabir" asp-route-projekcijaId="@projekcija.Id"                               style="text-decoration: none; color: inherit;">
-                                <div class="list-group-item" style="min-width: 150px; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+                                <div class="list-group-item" style="min-width: 200px; border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+                                    <strong>Datum:</strong> @projekcija.Datum.ToString(@"dd.MM.yyyy") <br />
                                     <strong>Vrijeme:</strong> @projekcija.Vrijeme.ToString(@"hh\:mm") <br />
                                     <strong>Dvorana:</strong> @projekcija.DvoranaNaziv
                                 </div>

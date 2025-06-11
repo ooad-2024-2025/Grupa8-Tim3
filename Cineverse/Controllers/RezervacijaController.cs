@@ -103,7 +103,10 @@ namespace Cineverse.Controllers
                 OsnovnaCijena = (decimal)cijena.OsnovnaCijena,
                 Popust = popustProcenat,
                 UkupnaCijena = ukupnaCijena,
-                BrojSjedista = odabranaSjedista.Count
+                BrojSjedista = odabranaSjedista.Count,
+                Poster = film.Poster,
+                Datum = projekcija.Datum,
+                Vrijeme = projekcija.Vrijeme
             };
 
             ViewBag.ProjekcijaId = projekcijaId;

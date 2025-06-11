@@ -1,15 +1,73 @@
 ﻿@model Cineverse.Models.PotvrdaRezervacijeViewModel
 
-<h2>Film: @Model.Film</h2>
-<p>Dvorana: @Model.Dvorana</p>
-<p>Sjedista:</p>
-<ul>
-    @foreach (var s in Model.Sjedista)
-    {
-        <li>Red: @s.Red, Kolona: @s.Kolona</li>
-    }
-</ul>
-<p>Osnovna cijena: @Model.OsnovnaCijena.ToString("0.00") KM</p>
-<p>Popust: @((Model.Popust * 100).ToString("0.00"))%</p>
-<p>Ukupna cijena: @Model.UkupnaCijena.ToString("0.00") KM</p>
-<p>Broj sjedista: @Model.BrojSjedista</p>
+
+@{
+    ViewData["Title"] = "Potvrda rezervacije";
+    var sjedistaTekst = string.Join(", ", Model.Sjedista.Select(s => $"Red {s.Red} Sjedište {s.Kolona}"));
+    var datumProjekcije = DateTime.Now; // Ako postoji tačan datum projekcije, koristi njega iz modela
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div style="background-color: #d4edda; color: #155724; padding: 1rem; margin: 1rem 0; border-radius: 5px; border: 1px solid #c3e6cb;">
+        <strong>@TempData["SuccessMessage"]</strong>
+        <br /><br />
+        <a href="@Url.Action("Index", "Karta")" style="display: inline-block; padding: 10px 20px; background-color: #FFA500; color: black; text-decoration: none; border-radius: 5px;">
+            Pregled Karti
+        </a>
+    </div>
+}
+
+<div class="details-container" style="display: flex; gap: 2rem; padding: 2rem; background-color: #000; color: #fff; font-family: sans-serif;">
+    <div>
+        @if (!string.IsNullOrEmpty(Model?.Poster))
+        {
+            <img src="@Model.Poster" alt="@Model.Film Poster" style="width: 300px; height: 400; border-radius: 12px;" />
+        }
+        else
+        {
+            <p>No poster available</p>
+        }
+    </div>
+    
+   <!-- <div>
+        <img src="@Model.Poster" alt="@Model.Film Poster" style="width: 250px; height: 450px; border-radius: 12px;" />
+    </div>-->
+    <div style="flex: 1;">
+        <h1 style="color: #FFA500;">@Model.Film</h1>
+        <p><strong>Cineverse Sarajevo</strong></p>
+        <p>@Model.Datum.ToString("dd.M.yyyy") </p>
+        <p>@Model.Vrijeme.ToString("HH:mm") </p>
+        <!--<p>2D, Sinhronizovano</p>-->
+
+        <hr />
+
+        <p><strong>SJEDIŠTA:</strong> @sjedistaTekst</p>
+
+        <hr />
+
+        <p>Regular: @Model.BrojSjedista x @Model.OsnovnaCijena KM</p>
+        <p>Popust: @(Model.Popust * 100)%</p>
+        <p><strong>Iznos: @Model.UkupnaCijena KM</strong></p>
+
+        <br />
+        <form asp-action="Create" method="post">
+            @for (int i = 0; i < Model.Sjedista.Count; i++)
+            {
+                <input type="hidden" name="Sjedista[@i].Red" value="@Model.Sjedista[i].Red" />
+                <input type="hidden" name="Sjedista[@i].Kolona" value="@Model.Sjedista[i].Kolona" />
+            }
+
+            @foreach (var sjedisteId in (List<int>)ViewBag.OdabranaSjedista)
+            {
+                <input type="hidden" name="odabranaSjedista" value="@sjedisteId" />
+            }
+
+            <input type="hidden" name="projekcijaId" value="@ViewBag.ProjekcijaId" />
+
+            <button type="submit" style="padding: 10px 20px; background-color: #FFA500; color: black; border: none; border-radius: 5px; cursor: pointer;">
+                Rezerviši karte →
+            </button>
+        </form>
+    </div>
+</div>
