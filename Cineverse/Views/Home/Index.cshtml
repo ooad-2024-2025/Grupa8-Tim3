@@ -9,14 +9,14 @@
     <div class="row">
         @foreach (var film in Model)
         {
-            <div class="col-md-3 mb-4">
+            <a class="col-md-3 mb-4" asp-controller="Film" asp-action ="Details" asp-route-id="@film.Id">
                 <div class="card h-100">
-                    <img src="@film.Poster" class="card-img-top" alt="@film.NazivFilma" style="width:100%; height:auto;" />
+                    <img src="@film.Poster" class="card-img-top" alt="@film.NazivFilma" />
                     <div class="card-body text-center">
                         <h5 class="card-title">@film.NazivFilma</h5>
                     </div>
                 </div>
-            </div>
+            </a>
         }
     </div>
 }

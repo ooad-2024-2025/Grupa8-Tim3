@@ -1,0 +1,91 @@
+﻿@model Cineverse.Models.Karta
+@{
+    ViewData["Title"] = "Rezervacija uspješna";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<style>
+    .success-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .check-circle {
+        width: 80px;
+        height: 80px;
+        border: 3px solid #fca311;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .success-text {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .success-button {
+        background-color: #fca311;
+        color: black;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+        .success-button:hover {
+            background-color: #e59500;
+        }
+
+    .top-left-icons {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
+        .top-left-icons i {
+            color: #fca311;
+            margin-right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+    .logo-top-right {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 22px;
+        font-weight: bold;
+        color: #fca311;
+        font-family: 'Courier New', Courier, monospace;
+    }
+</style>
+
+<div class="top-left-icons">
+    <i class="fas fa-home" title="Početna"></i>
+    <i class="fas fa-th-large" title="Meni"></i>
+    <i class="fas fa-ticket-alt" title="Karte"></i>
+</div>
+
+<div class="logo-top-right">
+    &#x1F680; Cineverse
+</div>
+
+<div class="success-wrapper">
+    <div class="check-circle">&#10003;</div>
+    <div class="success-text">Karta je uspješno rezervisana!</div>
+    <a href="@Url.Action("Index", "Karta")" class="success-button">
+        Pregled karti →
+    </a>
+</div>

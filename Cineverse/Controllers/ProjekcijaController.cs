@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -21,14 +20,12 @@ namespace Cineverse.Controllers
         }
 
         // GET: Projekcija
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Projekcija.ToListAsync());
         }
 
         // GET: Projekcija/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,7 +44,6 @@ namespace Cineverse.Controllers
         }
 
         // GET: Projekcija/Create
-        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -58,7 +54,6 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
             if (ModelState.IsValid)
@@ -71,7 +66,6 @@ namespace Cineverse.Controllers
         }
 
         // GET: Projekcija/Edit/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,7 +86,6 @@ namespace Cineverse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
             if (id != projekcija.Id)
@@ -124,7 +117,6 @@ namespace Cineverse.Controllers
         }
 
         // GET: Projekcija/Delete/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,7 +137,6 @@ namespace Cineverse.Controllers
         // POST: Projekcija/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projekcija = await _context.Projekcija.FindAsync(id);

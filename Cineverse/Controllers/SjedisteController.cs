@@ -20,6 +20,47 @@ namespace Cineverse.Controllers
             _context = context;
         }
 
+        // fja za odabir sjedista
+        [Authorize]
+        public async Task<IActionResult> Odabir(int projekcijaId)
+        {
+            var projekcija = await _context.Projekcija
+                .FirstOrDefaultAsync(p => p.Id == projekcijaId);
+
+            if (projekcija == null)
+                return NotFound();
+
+            var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
+            if (dvorana == null) return NotFound();
+
+            var film = await _context.Film.FindAsync(projekcija.FilmId);
+
+            var sjedista = await _context.Sjediste
+                .Where(s => s.DvoranaId == projekcija.DvoranaId)
+                .ToListAsync();
+
+
+            var zauzetaSjedisteId = await _context.Karta
+                .Join(_context.Rezervacija,
+                      karta => karta.RezervacijaId,
+                      rezervacija => rezervacija.Id,
+                      (karta, rezervacija) => new { karta.SjedisteId, rezervacija.ProjekcijaId })
+                .Where(x => x.ProjekcijaId == projekcijaId)
+                .Select(x => x.SjedisteId)
+                .ToListAsync();
+
+            ViewBag.Projekcija = projekcija;
+            ViewBag.Dvorana = dvorana;
+            ViewBag.Film = film;
+            ViewBag.Sjedista = sjedista;
+            ViewBag.Zauzeta = zauzetaSjedisteId;
+            ViewBag.Kapacitet = dvorana.Kapacitet;
+            ViewBag.ProjekcijaId = projekcija.Id;
+            ViewBag.SjedisteId = null;
+
+            return View("Odabir");
+        }
+
         // GET: Sjediste
         [Authorize]
         public async Task<IActionResult> Index()

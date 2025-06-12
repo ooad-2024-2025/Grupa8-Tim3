@@ -4,6 +4,7 @@ using Cineverse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cineverse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250609161830_promjenaKorisnikId")]
+    partial class promjenaKorisnikId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,6 +37,9 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("OsnovnaCijena")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Popust")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -206,9 +212,6 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("KartaId")
-                        .HasColumnType("int");
 
                     b.Property<int>("KorisnikId")
                         .HasColumnType("int");

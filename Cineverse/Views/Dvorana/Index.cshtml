@@ -18,9 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Kapacitet)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SlobodnaMjesta)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,18 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Kapacitet)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SlobodnaMjesta)
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-                <td>
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <nobr>|</nobr>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        <nobr>|</nobr>
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
         </tr>
 }
     </tbody>

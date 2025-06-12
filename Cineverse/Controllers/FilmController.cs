@@ -26,6 +26,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Film/Details/5
+        // ovdje kada se klikne na details trebaju se isto tako prikazati i projekcije
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,6 +40,27 @@ namespace Cineverse.Controllers
             {
                 return NotFound();
             }
+
+            // sada uzimamo projekcije za taj filmi dati id i dvorane
+            var projekcije = await _context.Projekcija
+                .Where(p => p.FilmId == id)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Lokacija,
+                    Datum = p.Datum.ToDateTime(TimeOnly.MinValue),
+                    Vrijeme = p.Vrijeme.ToTimeSpan(),
+                    DvoranaNaziv = _context.Dvorana
+                        .Where(d => d.Id == p.DvoranaId)
+                        .Select(d => d.NazivDvorane)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            ViewBag.Projekcije = projekcije;
+
+
+            // sad ih prikazujem
 
             return View(film);
         }
