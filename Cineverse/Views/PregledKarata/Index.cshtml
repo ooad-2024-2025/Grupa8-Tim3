@@ -1,48 +1,153 @@
-﻿@model IEnumerable<Cineverse.Models.PregledKarata>
-
+﻿@model IEnumerable<Cineverse.Models.PregledKarataViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pregled rezervisanih karata";
 }
 
-<h1>Index</h1>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.QRKod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KorisnikId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QRKod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KorisnikId)
-            </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <nobr>|</nobr>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        <nobr>|</nobr>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <nobr>|</nobr>
-                    }
-                </td>
+    .kartica {
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
 
-        </tr>
+    .film-slika {
+        width: 100px;
+        border-radius: 8px;
+    }
+
+    .qr-kod {
+        width: 150px;
+    }
+
+    .otkazi-btn {
+        background-color: #d35400; /* Darker orange */
+        color: white;
+        padding: 8px 20px;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        min-width: 180px;
+        text-align: center;
+    }
+
+        .otkazi-btn:hover {
+            background-color: #e67e22;
+            cursor: pointer;
+        }
+
+    .tabs-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 15px;
+        width: 90%;
+        max-width: 800px;
+    }
+
+    .tab {
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        flex: 1;
+        min-width: 250px;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+    }
+
+    .tab-active {
+        background-color: #d35400; /* Darker orange */
+        color: white;
+    }
+
+    .tab-inactive {
+        background-color: #444;
+        color: white;
+        text-decoration: none;
+    }
+
+        .tab-inactive:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+    /*.content-header {
+        text-align: left;
+        margin-bottom: 20px;
+        margin-bottom: 250px;
+        }*/ .content-header {
+        text-align: left;
+        margin-left: calc(50% - 400px); /* Približno centrirano lijevo s tabs dugmad */
+        max-width: 800px;
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+        .content-header h2 {
+            font-size: 2rem; /* Veći font za naslov */
+            margin-bottom: 8px;
+        }
+
+        .content-header p {
+            font-size: 1.2rem; /* Malo veći font za rečenicu */
+            color: #ddd;
+            margin: 0;
+        }
+
+</style>
+
+<div class="tabs-container">
+    <div class="tabs">
+        <div class="tab tab-active">Trenutno rezervisane karte</div>
+        <a asp-action="PastReservations" class="tab tab-inactive">Prijašnje rezervacije</a>
+    </div>
+</div>
+
+<div class="content-header">
+    <h2>PREGLED KARTI</h2>
+    @{
+        var currentReservationsCount = Model.Count(x => x.VrijemeProjekcije.Date >= DateTime.Now.Date);
+        <p>@currentReservationsCount karta je trenutno rezervisana</p>
+    }
+</div>
+
+@foreach (var item in Model.OrderBy(x => x.VrijemeProjekcije))
+{
+    if (item.VrijemeProjekcije.Date >= DateTime.Now.Date)
+    {
+        <div class="kartica">
+            <img src="@item.SlikaFilmaUrl" alt="Poster filma" class="film-slika" />
+
+            <div>
+                <h3>@item.NazivFilma</h3>
+                <p><strong>Vrijeme projekcije:</strong> @item.VrijemeProjekcije.ToString("dd.MM.yyyy, HH:mm")</p>
+                <p><strong>Mjesto:</strong> @item.Sala, Red @item.Red, Sjedište @item.Sjediste</p>
+                <p><strong>Iznos:</strong> @item.Iznos.ToString("0.00") KM</p>
+            </div>
+
+            <div style="margin-left:auto; text-align:center;">
+                <p><strong>Ovdje skenirajte QR kod:</strong></p>
+                <img src="@item.QRKod" alt="QR Kod" class="qr-kod" />
+            </div>
+
+            <form asp-action="DeleteConfirmed" method="post" style="margin-left: 20px;">
+                <input type="hidden" name="id" value="@item.Lokacija" />
+                <button type="submit" class="otkazi-btn">Otkaži rezervaciju</button>
+            </form>
+        </div>
+    }
 }
-    </tbody>
-</table>

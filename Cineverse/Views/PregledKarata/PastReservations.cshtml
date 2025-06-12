@@ -1,0 +1,154 @@
+﻿@model List<Cineverse.Models.PregledKarataViewModel>
+@{
+    ViewData["Title"] = "Prijašnje rezervacije";
+}
+
+<style>
+    body {
+        background-color: #0f0f23;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .tabs-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        padding-top: 20px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 15px;
+        width: 90%;
+        max-width: 800px;
+    }
+
+    .tab {
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        flex: 1;
+        min-width: 250px;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+    }
+
+    .tab-active {
+        background-color: #d35400; /* Darker orange */
+        color: white;
+    }
+
+    .tab-inactive {
+        background-color: #444;
+        color: white;
+        text-decoration: none;
+    }
+
+        .tab-inactive:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+    .content-area {
+        padding: 0 20px 20px 20px;
+    }
+
+    /*.content-header {
+        text-align: left;
+        margin-bottom: 20px;
+        margin-left: 250px;
+        }*/ .content-header {
+        text-align: left;
+        margin-left: calc(50% - 400px); /* Izravnato s tabs dugmad */
+        max-width: 800px;
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+        .content-header h2 {
+            font-size: 2rem; /* Veći font za naslov */
+            margin-bottom: 8px;
+        }
+
+    .content-area p {
+        font-size: 1.2rem; /* Veći font za broj prijašnjih rezervacija */
+        color: #ddd;
+    }
+
+
+    .movie-card {
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 20px;
+    }
+
+    .movie-poster {
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .back-arrow {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        color: #d4a574;
+        font-size: 2rem;
+        text-decoration: none;
+    }
+
+    .no-reservations {
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+
+<div class="tabs-container">
+    <div class="tabs">
+        <a asp-action="Index" class="tab tab-inactive">Trenutno rezervisane karte</a>
+        <div class="tab tab-active">Prijašnje rezervacije</div>
+    </div>
+</div>
+
+<div class="content-area">
+    <div class="content-header">
+        <h2>PREGLED KARTI</h2>
+    </div>
+
+    @if (Model != null && Model.Any(x => x.VrijemeProjekcije.Date < DateTime.Now.Date))
+    {
+        var pastReservations = Model.Where(x => x.VrijemeProjekcije.Date < DateTime.Now.Date)
+        .OrderByDescending(x => x.VrijemeProjekcije)
+        .ToList();
+
+        <p style="text-align: center;">@pastReservations.Count prijašnjih rezervacija</p>
+
+        @foreach (var karta in pastReservations)
+        {
+            <div class="movie-card">
+                <img src="@karta.SlikaFilmaUrl" alt="@karta.NazivFilma" class="movie-poster" />
+                <div>
+                    <h3>@karta.NazivFilma</h3>
+                    <p><strong>Vrijeme projekcije:</strong> @karta.VrijemeProjekcije.ToString("dd.MM.yyyy, HH:mm")</p>
+                    <p><strong>Mjesto:</strong> @karta.Sala, Red @karta.Red, Sjedište @karta.Sjediste</p>
+                    <p><strong>Iznos:</strong> @karta.Iznos.ToString("0.00") KM</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="no-reservations">
+            <h4>Nema prijašnjih rezervacija za prikaz</h4>
+            <!---<p>Trenutno nemate prijašnjih rezervacija.</p>-->
+        </div>
+    }
+</div>
+
+<a href="javascript:history.back()" class="back-arrow">←</a>

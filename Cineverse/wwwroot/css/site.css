@@ -72,4 +72,33 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-decoration: none;
     cursor: pointer;
 }
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding-top: 20px; /* Dodati u oba view-a ako želiš blagi razmak od vrha */
+}
+
+/* Zajedni?ki font za PREGLED KARTI i re?enicu ispod */
+.content-header {
+    text-align: left; /* Poravnanje lijevo */
+    margin-left: 20px; /* Razmak s lijeve strane, ujedna?en s tabovima */
+    font-family: Arial, sans-serif; /* Isto kao i tabovi i ostatak */
+    margin-bottom: 10px; /* Malo razmaka ispod naslova */
+}
+
+    /* Naslov ve?i font */
+    .content-header h2 {
+        font-size: 2.2rem; /* Ve?i font za naslov */
+        font-weight: bold;
+        margin: 0;
+        color: white;
+    }
+
+    /* Re?enica ispod naslova manji font */
+    .content-header p {
+        font-size: 1rem; /* Manji font za re?enicu */
+        margin-top: 5px;
+        color: #ddd; /* Svjetlija nijansa za bolju hijerarhiju */
+    }
 

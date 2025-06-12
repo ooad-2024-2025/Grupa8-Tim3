@@ -9,6 +9,7 @@ using Cineverse.Data;
 using Cineverse.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Cineverse.Controllers
 {
@@ -25,17 +26,129 @@ namespace Cineverse.Controllers
         // GET: PregledKarata
         public async Task<IActionResult> Index()
         {
-            //return View(await _context.PregledKarata.ToListAsync());
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            // Filtriraj karte po korisniku
-            var karte = await _context.PregledKarata
-                .Where(k => k.KorisnikId.ToString() == userId)
+            // Direktno dohvati sve rezervacije za korisnika
+            var rezervacije = await _context.Rezervacija
+                .Where(r => r.KorisnikId.ToString() == userId)
                 .ToListAsync();
 
-            // Ako želiš prikazati i podatke o filmu, trebaš proširiti upit (vidi sledeći korak)
-            return View(karte);
+            var viewModelList = new List<PregledKarataViewModel>();
+
+            foreach (var rezervacija in rezervacije)
+            {
+                // Pronađi kartu za ovu rezervaciju
+                var karta = await _context.Karta.FirstOrDefaultAsync(k => k.RezervacijaId == rezervacija.Id);
+                if (karta == null) continue;
+
+                // Pronađi QR kod iz PregledKarata (ako postoji)
+                var pregledKarta = await _context.PregledKarata
+                    .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
+                string qrKod = pregledKarta?.QRKod ?? "N/A";
+
+                // Pronađi projekciju
+                var projekcija = await _context.Projekcija.FirstOrDefaultAsync(p => p.Id == rezervacija.ProjekcijaId);
+                if (projekcija == null) continue;
+
+                // Pronađi film
+                var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
+                if (film == null) continue;
+
+                // Pronađi dvoranu
+                var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
+                if (dvorana == null) continue;
+
+                // Pronađi sjedište
+                var sjediste = await _context.Sjediste.FirstOrDefaultAsync(s => s.Id == karta.SjedisteId);
+                if (sjediste == null) continue;
+
+                // Pronađi cijenu
+                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.Id == rezervacija.CijenaId);
+                if (cijena == null) continue;
+
+                // Kombinuj datum i vrijeme za prikaz
+                DateTime vrijemeProjekcije = projekcija.Datum.Date.Add(TimeSpan.Parse(projekcija.Vrijeme));
+
+                viewModelList.Add(new PregledKarataViewModel
+                {
+                    QRKod = qrKod,
+                    NazivFilma = film.NazivFilma,
+                    SlikaFilmaUrl = film.Poster,
+                    VrijemeProjekcije = vrijemeProjekcije,
+                    Sala = dvorana.NazivDvorane,
+                    Red = sjediste.Red.ToString(),
+                    Sjediste = sjediste.Kolona.ToString(),
+                    Iznos = cijena.OsnovnaCijena - cijena.Popust,
+                    Lokacija = projekcija.Lokacija
+                });
+            }
+
+            return View(viewModelList);
         }
+
+        // Add this action to your PregledKarataController
+        public async Task<IActionResult> PastReservations()
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            // Direktno dohvati sve rezervacije za korisnika
+            var rezervacije = await _context.Rezervacija
+                .Where(r => r.KorisnikId.ToString() == userId)
+                .ToListAsync();
+
+            var viewModelList = new List<PregledKarataViewModel>();
+
+            foreach (var rezervacija in rezervacije)
+            {
+                // Pronađi kartu za ovu rezervaciju
+                var karta = await _context.Karta.FirstOrDefaultAsync(k => k.RezervacijaId == rezervacija.Id);
+                if (karta == null) continue;
+
+                // Pronađi QR kod iz PregledKarata (ako postoji)
+                var pregledKarta = await _context.PregledKarata
+                    .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
+                string qrKod = pregledKarta?.QRKod ?? "N/A";
+
+                // Pronađi projekciju
+                var projekcija = await _context.Projekcija.FirstOrDefaultAsync(p => p.Id == rezervacija.ProjekcijaId);
+                if (projekcija == null) continue;
+
+                // Pronađi film
+                var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
+                if (film == null) continue;
+
+                // Pronađi dvoranu
+                var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
+                if (dvorana == null) continue;
+
+                // Pronađi sjedište
+                var sjediste = await _context.Sjediste.FirstOrDefaultAsync(s => s.Id == karta.SjedisteId);
+                if (sjediste == null) continue;
+
+                // Pronađi cijenu
+                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.Id == rezervacija.CijenaId);
+                if (cijena == null) continue;
+
+                // Kombinuj datum i vrijeme za prikaz
+                DateTime vrijemeProjekcije = projekcija.Datum.Date.Add(TimeSpan.Parse(projekcija.Vrijeme));
+
+                viewModelList.Add(new PregledKarataViewModel
+                {
+                    QRKod = qrKod,
+                    NazivFilma = film.NazivFilma,
+                    SlikaFilmaUrl = film.Poster,
+                    VrijemeProjekcije = vrijemeProjekcije,
+                    Sala = dvorana.NazivDvorane,
+                    Red = sjediste.Red.ToString(),
+                    Sjediste = sjediste.Kolona.ToString(),
+                    Iznos = cijena.OsnovnaCijena - cijena.Popust,
+                    Lokacija = projekcija.Lokacija
+                });
+            }
+
+            return View(viewModelList);
+        }
+
 
         // GET: PregledKarata/Details/5
         public async Task<IActionResult> Details(int? id)
