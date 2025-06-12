@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Cineverse.Models.PregledKarataViewModel>
 @{
     ViewData["Title"] = "Pregled rezervisanih karata";
+    var today = DateOnly.FromDateTime(DateTime.Now);
 }
 
 <style>
@@ -30,7 +31,7 @@
     }
 
     .otkazi-btn {
-        background-color: #d35400; /* Darker orange */
+        background-color: #d35400;
         color: white;
         padding: 8px 20px;
         border-radius: 5px;
@@ -70,7 +71,7 @@
     }
 
     .tab-active {
-        background-color: #d35400; /* Darker orange */
+        background-color: #d35400;
         color: white;
     }
 
@@ -85,29 +86,24 @@
             transform: translateY(-2px);
         }
 
-    /*.content-header {
+    .content-header {
         text-align: left;
-        margin-bottom: 20px;
-        margin-bottom: 250px;
-        }*/ .content-header {
-        text-align: left;
-        margin-left: calc(50% - 400px); /* Približno centrirano lijevo s tabs dugmad */
+        margin-left: calc(50% - 400px);
         max-width: 800px;
         width: 90%;
         margin-bottom: 20px;
     }
 
         .content-header h2 {
-            font-size: 2rem; /* Veći font za naslov */
+            font-size: 2rem;
             margin-bottom: 8px;
         }
 
         .content-header p {
-            font-size: 1.2rem; /* Malo veći font za rečenicu */
+            font-size: 1.2rem;
             color: #ddd;
             margin: 0;
         }
-
 </style>
 
 <div class="tabs-container">
@@ -120,21 +116,21 @@
 <div class="content-header">
     <h2>PREGLED KARTI</h2>
     @{
-        var currentReservationsCount = Model.Count(x => x.VrijemeProjekcije.Date >= DateTime.Now.Date);
+        var currentReservationsCount = Model.Count(x => x.DatumProjekcije >= today);
         <p>@currentReservationsCount karta je trenutno rezervisana</p>
     }
 </div>
 
-@foreach (var item in Model.OrderBy(x => x.VrijemeProjekcije))
+@foreach (var item in Model.OrderBy(x => x.DatumProjekcije).ThenBy(x => x.VrijemeProjekcije))
 {
-    if (item.VrijemeProjekcije.Date >= DateTime.Now.Date)
+    if (item.DatumProjekcije >= today)
     {
         <div class="kartica">
             <img src="@item.SlikaFilmaUrl" alt="Poster filma" class="film-slika" />
 
             <div>
                 <h3>@item.NazivFilma</h3>
-                <p><strong>Vrijeme projekcije:</strong> @item.VrijemeProjekcije.ToString("dd.MM.yyyy, HH:mm")</p>
+                <p><strong>Vrijeme projekcije:</strong> @item.DatumProjekcije.ToString("dd.MM.yyyy"), @item.VrijemeProjekcije.ToString("HH:mm")</p>
                 <p><strong>Mjesto:</strong> @item.Sala, Red @item.Red, Sjedište @item.Sjediste</p>
                 <p><strong>Iznos:</strong> @item.Iznos.ToString("0.00") KM</p>
             </div>

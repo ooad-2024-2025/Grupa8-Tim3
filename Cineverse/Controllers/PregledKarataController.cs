@@ -67,18 +67,18 @@ namespace Cineverse.Controllers
                 if (cijena == null) continue;
 
                 // Kombinuj datum i vrijeme za prikaz
-                DateTime vrijemeProjekcije = projekcija.Datum.Date.Add(TimeSpan.Parse(projekcija.Vrijeme));
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
                     QRKod = qrKod,
                     NazivFilma = film.NazivFilma,
                     SlikaFilmaUrl = film.Poster,
-                    VrijemeProjekcije = vrijemeProjekcije,
+                    VrijemeProjekcije = projekcija.Vrijeme,
+                    DatumProjekcije = projekcija.Datum,
                     Sala = dvorana.NazivDvorane,
                     Red = sjediste.Red.ToString(),
                     Sjediste = sjediste.Kolona.ToString(),
-                    Iznos = cijena.OsnovnaCijena - cijena.Popust,
+                    Iznos = cijena.OsnovnaCijena,
                     Lokacija = projekcija.Lokacija
                 });
             }
@@ -130,18 +130,18 @@ namespace Cineverse.Controllers
                 if (cijena == null) continue;
 
                 // Kombinuj datum i vrijeme za prikaz
-                DateTime vrijemeProjekcije = projekcija.Datum.Date.Add(TimeSpan.Parse(projekcija.Vrijeme));
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
                     QRKod = qrKod,
                     NazivFilma = film.NazivFilma,
                     SlikaFilmaUrl = film.Poster,
-                    VrijemeProjekcije = vrijemeProjekcije,
+                    VrijemeProjekcije = projekcija.Vrijeme,
+                    DatumProjekcije = projekcija.Datum,
                     Sala = dvorana.NazivDvorane,
                     Red = sjediste.Red.ToString(),
                     Sjediste = sjediste.Kolona.ToString(),
-                    Iznos = cijena.OsnovnaCijena - cijena.Popust,
+                    Iznos = cijena.OsnovnaCijena,
                     Lokacija = projekcija.Lokacija
                 });
             }
