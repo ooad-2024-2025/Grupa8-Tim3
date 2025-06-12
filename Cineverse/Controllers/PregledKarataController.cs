@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cineverse.Controllers
 {
@@ -24,7 +25,16 @@ namespace Cineverse.Controllers
         // GET: PregledKarata
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PregledKarata.ToListAsync());
+            //return View(await _context.PregledKarata.ToListAsync());
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            // Filtriraj karte po korisniku
+            var karte = await _context.PregledKarata
+                .Where(k => k.KorisnikId.ToString() == userId)
+                .ToListAsync();
+
+            // Ako želiš prikazati i podatke o filmu, trebaš proširiti upit (vidi sledeći korak)
+            return View(karte);
         }
 
         // GET: PregledKarata/Details/5

@@ -210,6 +210,9 @@ namespace Cineverse.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("KartaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("KorisnikId")
                         .HasColumnType("int");
 
