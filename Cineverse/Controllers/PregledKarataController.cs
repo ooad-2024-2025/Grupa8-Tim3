@@ -49,7 +49,7 @@ namespace Cineverse.Controllers
                 var pregledKarta = await _context.PregledKarata
                     .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
                 string qrKod = pregledKarta?.QRKod ?? "N/A";
-                
+
 
 
                 // Pronađi projekciju
@@ -78,7 +78,8 @@ namespace Cineverse.Controllers
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
-                    /*QRKod = qrKod,*/QRKod = qrKodBase64,
+                    /*QRKod = qrKod,*/
+                    QRKod = qrKodBase64,
                     NazivFilma = film.NazivFilma,
                     SlikaFilmaUrl = film.Poster,
                     VrijemeProjekcije = projekcija.Vrijeme,
@@ -156,6 +157,55 @@ namespace Cineverse.Controllers
 
             return View(viewModelList);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> KreirajPregledKarata()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+                return Unauthorized();
+
+            // Dohvati sve postojeće preglede za korisnika
+            var postojecePreglede = await _context.PregledKarata
+                .Where(pk => pk.KorisnikId == userId)
+                .ToListAsync();
+
+            // Dohvati sve rezervacije za korisnika
+            var rezervacije = await _context.Rezervacija
+                .Where(r => r.KorisnikId == userId)
+                .ToListAsync();
+
+            // Kreiranje pregleda samo za rezervacije koje nemaju već generisan pregled
+            foreach (var rezervacija in rezervacije)
+            {
+                // Provjera da li postoji pregled za ovu rezervaciju
+                var postojiPregled = postojecePreglede
+                    .Any(pk => pk.QRKod.Contains($"RezervacijaID:{rezervacija.Id}"));
+
+                if (!postojiPregled)
+                {
+                    // Generisanje QR koda za rezervaciju
+                    var qrText = $"RezervacijaID:{rezervacija.Id}|KorisnikID:{userId}";
+
+                    var qrImageBase64 = _qrService.GenerateQrCodeBase64(qrText);
+
+                    // Kreiranje novog pregleda
+                    var noviPregled = new PregledKarata
+                    {
+                        QRKod = qrImageBase64,
+                        KorisnikId = userId
+                    };
+
+                    _context.PregledKarata.Add(noviPregled);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "PregledKarata");
+        }
+
 
 
         // GET: PregledKarata/Details/5

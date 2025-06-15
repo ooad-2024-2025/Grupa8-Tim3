@@ -82,7 +82,7 @@
 <div class="success-wrapper">
     <div class="check-circle">&#10003;</div>
     <div class="success-text">Karta je uspješno rezervisana!</div>
-    <a href="@Url.Action("Index", "PregledKarata")" class="success-button">
-        Pregled karti →
-    </a>
+    <form asp-action="kreirajPregledKarata" asp-controller="PregledKarata" method="post" style="display: inline;">
+        <button type="submit" class="success-button">Pregled karti →</button>
+    </form>
 </div>

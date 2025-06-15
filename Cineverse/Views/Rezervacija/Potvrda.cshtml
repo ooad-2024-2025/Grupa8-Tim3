@@ -77,6 +77,11 @@
                             <input type="hidden" name="sjedista[@i]" value="@odabranaSjedista[i]" />
                         }
                     </form>
+                    <form asp-action="kreirajPregledKarata" method="post" id="kreirajPregledKarataForm" style="display: none;">
+                        <input type="hidden" name="rezervacijaId" id="rezervacijaIdInput2" value="" />
+                        <input type="hidden" name="projekcijaId" value="@ViewBag.ProjekcijaId" />
+                    </form>
+
                 }
             }
 
