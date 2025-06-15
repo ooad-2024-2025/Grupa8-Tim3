@@ -108,52 +108,17 @@
 </div>
 
 <script>
-    document.getElementById('rezervisiBtn').addEventListener('click', async function() {
+    document.getElementById('rezervisiBtn').addEventListener('click', function() {
         const btn = this;
         const originalText = btn.innerHTML;
 
-        // Promijeni dugme da pokaže loading
+        // Show loading state
         btn.innerHTML = 'Rezerviram...';
         btn.disabled = true;
         btn.style.backgroundColor = '#999';
 
-        try {
-            // Prvo kreiraj rezervaciju
-            const rezervacijaForm = document.getElementById('kreirajRezervacijuForm');
-            const formData = new FormData(rezervacijaForm);
-
-            const response = await fetch('@Url.Action("KreirajRezervaciju", "Rezervacija")', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                }
-            });
-
-            if (response.ok) {
-                // Ako je rezervacija uspješno kreirana, preusmjeri na rezultat
-                const result = await response.text();
-
-                // Provjeri da li je odgovor redirect ili sadrži ID rezervacije
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else {
-                    // Pokušaj da izvučeš ID rezervacije iz odgovora ili preusmjeri na index
-                    window.location.href = '@Url.Action("Index", "Rezervacija")';
-                }
-            } else {
-                throw new Error('Greška prilikom kreiranja rezervacije');
-            }
-
-        } catch (error) {
-            console.error('Greška:', error);
-            alert('Došlo je do greške prilikom rezervacije. Molimo pokušajte ponovo.');
-
-            // Vrati dugme u normalno stanje
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            btn.style.backgroundColor = '#FFA500';
-        }
+        // Submit the form
+        document.getElementById('kreirajRezervacijuForm').submit();
     });
 </script>
 

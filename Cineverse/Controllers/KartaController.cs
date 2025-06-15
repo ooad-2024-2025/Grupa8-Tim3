@@ -72,14 +72,21 @@ namespace Cineverse.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Karte su uspješno kreirane!";
-                return RedirectToAction("Details", new { id = rezervacijaId });
+                TempData["Success"] = "Rezervacija je uspješno kreirana!";
+                return RedirectToAction("Uspjeh", "Karta", new { rezervacijaId = rezervacija.Id });
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "Došlo je do greške prilikom kreiranja karata.";
                 return RedirectToAction("Details", new { id = rezervacijaId });
             }
+        }
+
+        // Dodajte ovu metodu u vaš KartaController.cs
+        public IActionResult Uspjeh(int rezervacijaId)
+        {
+            ViewBag.RezervacijaId = rezervacijaId;
+            return View();
         }
 
         // GET: Karta

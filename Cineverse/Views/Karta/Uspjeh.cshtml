@@ -1,4 +1,5 @@
 ﻿@model Cineverse.Models.Karta
+
 @{
     ViewData["Title"] = "Rezervacija uspješna";
 }
@@ -78,14 +79,10 @@
     <i class="fas fa-ticket-alt" title="Karte"></i>
 </div>
 
-<div class="logo-top-right">
-    &#x1F680; Cineverse
-</div>
-
 <div class="success-wrapper">
     <div class="check-circle">&#10003;</div>
     <div class="success-text">Karta je uspješno rezervisana!</div>
-    <a href="@Url.Action("Index", "Karta")" class="success-button">
+    <a href="@Url.Action("Index", "PregledKarata")" class="success-button">
         Pregled karti →
     </a>
 </div>

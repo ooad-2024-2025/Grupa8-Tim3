@@ -200,7 +200,7 @@ namespace Cineverse.Controllers
                     await _context.SaveChangesAsync();
 
                     TempData["Success"] = "Rezervacija je uspješno kreirana!";
-                    return RedirectToAction("Details", new { id = novaRezervacija.Id });
+                    return RedirectToAction("Uspjeh", "Karta", new { rezervacijaId = novaRezervacija.Id });
                 }
                 catch
                 {

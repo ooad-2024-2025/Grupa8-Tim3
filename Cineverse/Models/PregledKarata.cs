@@ -12,7 +12,7 @@ namespace Cineverse.Models
         public string QRKod { get; set; } = string.Empty;
 
         [ForeignKey("Korisnik")]
-        public int KorisnikId { get; set; }
+        public string KorisnikId { get; set; }
 
         /*[ForeignKey("Karta")]
         public int KartaId { get; set; }*/
