@@ -72,8 +72,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Film/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Zanr,VrijemeTrajanja,Uloge,Sinopsis,Reziser,Trailer,NazivFilma,Poster")] Film film)
@@ -104,8 +103,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Film/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Zanr,VrijemeTrajanja,Uloge,Sinopsis,Reziser,Trailer,NazivFilma,Poster")] Film film)

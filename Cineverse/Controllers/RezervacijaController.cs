@@ -70,7 +70,15 @@ namespace Cineverse.Controllers
 
             if (korisnik.DatumRodjenja == null)
             {
-                popustProcenat = 0m;
+
+                if (korisnik.Email.Contains("kinoradnik"))
+                {
+                    popustProcenat = 0.10m;
+                }
+                else
+                {
+                    popustProcenat = 0m;
+                }
             }
             else
             {
@@ -80,11 +88,7 @@ namespace Cineverse.Controllers
                 if (godinaRodjenja > danas.AddYears(-godine))
                     godine--;
 
-                if (korisnik.Email.Contains("kinoradnik"))
-                {
-                    popustProcenat = 0.10m;
-                }
-                else if (godine >= 65)
+                if (godine >= 65)
                 {
                     popustProcenat = 0.30m;
                 }
@@ -245,8 +249,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Rezervacija/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -277,8 +280,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Rezervacija/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)

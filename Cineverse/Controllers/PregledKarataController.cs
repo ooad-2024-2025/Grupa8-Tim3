@@ -94,12 +94,12 @@ namespace Cineverse.Controllers
             return View(viewModelList);
         }
 
-        // Add this action to your PregledKarataController
+        
         public async Task<IActionResult> PastReservations()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            // Direktno dohvati sve rezervacije za korisnika
+            
             var rezervacije = await _context.Rezervacija
                 .Where(r => r.KorisnikId.ToString() == userId)
                 .ToListAsync();
@@ -183,8 +183,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: PregledKarata/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,QRKod,KorisnikId")] PregledKarata pregledKarata)
@@ -215,8 +214,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: PregledKarata/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,QRKod,KorisnikId")] PregledKarata pregledKarata)

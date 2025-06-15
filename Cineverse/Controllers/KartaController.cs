@@ -31,7 +31,7 @@ namespace Cineverse.Controllers
                 return Unauthorized();
             }
 
-            // Ispravka: trebamo dohvatiti rezervaciju, ne film
+            
             var rezervacija = await _context.Rezervacija.FirstOrDefaultAsync(r => r.Id == rezervacijaId);
             if (rezervacija == null)
             {
@@ -53,7 +53,7 @@ namespace Cineverse.Controllers
 
             try
             {
-                // Kreiranje karata za svako odabrano sjedište
+                
                 foreach (var sjedisteId in sjedista)
                 {
                     // Provjeri da li sjedište već ima kartu za ovu rezervaciju
@@ -82,7 +82,7 @@ namespace Cineverse.Controllers
             }
         }
 
-        // Dodajte ovu metodu u vaš KartaController.cs
+  
         public IActionResult Uspjeh(int rezervacijaId)
         {
             ViewBag.RezervacijaId = rezervacijaId;
@@ -120,8 +120,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Karta/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RezervacijaId,SjedisteId")] Karta karta)
@@ -156,8 +155,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Karta/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,RezervacijaId,SjedisteId")] Karta karta)
