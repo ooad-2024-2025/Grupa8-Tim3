@@ -8,67 +8,189 @@
     var maxRed = sjedista.Max(s => s.Red);
 }
 
-<!-- Dodani stilovi -->
 <style>
+    body {
+        background-color: #121212; /* Dark background */
+        color: white; /* White text for entire page */
+        font-family: Arial, sans-serif;
+    }
+
     .sjediste-label {
         display: inline-block;
         width: 25px;
         height: 25px;
         margin: 2px;
-        background: #f5f5f5;
+        background: #333; /* Darker seat background */
         text-align: center;
         line-height: 25px;
         cursor: pointer;
-        border: 1px solid #ddd;
-        color: dimgray !important; 
-        transition: background 0.2s, color 0.2s;
+        border: 1px solid #555;
+        color: white !important; /* White seat numbers */
+        transition: all 0.2s;
+    }
+
+    .predzadnji-red {
+        background-color: #1a5276; /* Darker blue for VIP */
+    }
+
+    .zadnji-red {
+        background-color: #6a1b9a; /* Darker pink for Lovebox */
     }
 
     input[type="checkbox"]:checked + .sjediste-label {
-        background-color: orange;
-        color: black !important;
-        border-color: #aaa;
+        background-color: #e67e00 !important; /* Orange for selected */
+        color: white !important;
+        border-color: #e67e00;
+    }
+
+    .container-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .sjedista-container, .legenda-container {
+        background: transparent !important; /* Transparent background */
+        color: white; /* White text */
+    }
+
+    .legenda-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .legenda-color {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #555;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
+    .submit-btn {
+        padding: 10px 25px;
+        background: #e67e00; /* Orange button */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+        .submit-btn:hover {
+            background: #d35400;
+        }
+
+    .film-title {
+        margin-bottom: 10px;
+        color: white;
+        font-size: 24px; /* Larger font size for film title */
+        font-weight: bold;
+    }
+
+    .dvorana-info {
+        margin-bottom: 20px;
+        color: #bbb;
+    }
+
+    /* Style for occupied seats */
+    .zauzeto {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        margin: 2px;
+        background: #222;
+        text-align: center;
+        line-height: 25px;
+        color: #ff4444 !important;
+    }
+
+    .legenda-title {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: white;
+        font-size: 16px; /* Smaller font size for legend title */
     }
 </style>
 
-
-<div style="max-width: 600px; margin: 20px auto; font-family: Arial, sans-serif;">
-    <h3>@film.NazivFilma</h3>
-    <p>Dvorana: @dvorana.NazivDvorane</p>
-
-    <form method="post" action="/rezervacija/potvrda">
-        <input type="hidden" name="projekcijaId" value="@projekcija.Id" />
-
-        <div style="text-align: center; margin-bottom: 20px;">
-            @for (int red = 1; red <= maxRed; red++)
-            {
-                <div style="margin-bottom: 8px;">
-                    <span style="display: inline-block; width: 25px; text-align: right; margin-right: 5px;">@red.</span>
-
-                    @foreach (var sjediste in sjedista.Where(s => s.Red == red).OrderBy(s => s.Kolona))
-                    {
-                        if (zauzeta.Contains(sjediste.Id))
-                        {
-                            <span style="display: inline-block; width: 25px; height: 25px; margin: 2px; background: #eee; text-align: center; line-height: 25px;">❌</span>
-                        }
-                        else
-                        {
-                            <input type="checkbox"
-                                   name="odabranaSjedista"
-                                   value="@sjediste.Id"
-                                   id="sjediste-@sjediste.Id"
-                                   style="display: none;" />
-                            <label for="sjediste-@sjediste.Id" class="sjediste-label">
-                                @sjediste.Kolona
-                            </label>
-                        }
-                    }
-                </div>
-            }
+<div class="container-wrapper">
+    <div class="legenda-container">
+        <h4 class="legenda-title">LEGENDA</h4> <!-- Changed to use class instead of inline style -->
+        <div class="legenda-item">
+            <div class="legenda-color" style="background-color: #e67e00;"></div>
+            <span>Odabrano</span>
         </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <button type="submit" style="padding: 8px 20px; background: darkorange; color: white; border: none; cursor: pointer;">Rezerviši</button>
+        <div class="legenda-item">
+            <div class="legenda-color" style="background-color: #6a1b9a;"></div>
+            <span>Lovebox (zadnji red)</span>
         </div>
-    </form>
+        <div class="legenda-item">
+            <div class="legenda-color" style="background-color: #1a5276;"></div>
+            <span>VIP (predzadnji red)</span>
+        </div>
+        <div class="legenda-item">
+            <div class="legenda-color" style="background-color: #333;"></div>
+            <span>Slobodno</span>
+        </div>
+        <div class="legenda-item">
+            <div class="legenda-color" style="background-color: #222; color: #ff4444; display: flex; justify-content: center; align-items: center;">❌</div>
+            <span>Zauzeto</span>
+        </div>
+    </div>
+
+    <div class="sjedista-container">
+        <h2 class="film-title">@film.NazivFilma</h2> <!-- Changed from h3 to h2 for larger size -->
+        <p class="dvorana-info">Dvorana: @dvorana.NazivDvorane</p>
+
+        <form method="post" action="/rezervacija/potvrda">
+            <input type="hidden" name="projekcijaId" value="@projekcija.Id" />
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                @for (int red = 1; red <= maxRed; red++)
+                {
+                    <div style="margin-bottom: 8px;">
+                        <span style="display: inline-block; width: 25px; text-align: right; margin-right: 5px; color: white;">@red.</span>
+
+                        @foreach (var sjediste in sjedista.Where(s => s.Red == red).OrderBy(s => s.Kolona))
+                        {
+                            if (zauzeta.Contains(sjediste.Id))
+                            {
+                                <span class="zauzeto">❌</span>
+                            }
+                            else
+                            {
+                                string dodatnaKlasa = "";
+                                if (sjediste.Red == maxRed)
+                                {
+                                    dodatnaKlasa = "zadnji-red";
+                                }
+                                else if (sjediste.Red == maxRed - 1)
+                                {
+                                    dodatnaKlasa = "predzadnji-red";
+                                }
+
+                                <input type="checkbox"
+                                       name="odabranaSjedista"
+                                       value="@sjediste.Id"
+                                       id="sjediste-@sjediste.Id"
+                                       style="display: none;" />
+                                <label for="sjediste-@sjediste.Id" class="sjediste-label @dodatnaKlasa">
+                                    @sjediste.Kolona
+                                </label>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" class="submit-btn">REZERVIŠI</button>
+            </div>
+        </form>
+    </div>
 </div>

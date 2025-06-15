@@ -92,7 +92,7 @@ namespace Cineverse.Areas.Identity.Pages.Account
 
 
             [Required(ErrorMessage = "Email je obavezan!")]
-            [EmailAddress(ErrorMessage = "Unesite ispravnu email adresu!")]
+            [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Neispravan format!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
