@@ -32,6 +32,12 @@ namespace Cineverse.Data
             modelBuilder.Entity<Dvorana>().ToTable("Dvorana");
             modelBuilder.Entity<PregledKarata>().ToTable("PregledKarata");
 
+
+           
+
+            // Ostale konfiguracije...
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

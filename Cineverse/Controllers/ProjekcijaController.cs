@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,23 +21,20 @@ namespace Cineverse.Controllers
         // GET: Projekcija
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projekcija.ToListAsync());
+            var projekcije = _context.Projekcija.Include(p => p.FilmId);
+            return View(await projekcije.ToListAsync());
         }
 
         // GET: Projekcija/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var projekcija = await _context.Projekcija
+                .Include(p => p.FilmId)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (projekcija == null)
-            {
-                return NotFound();
-            }
+
+            if (projekcija == null) return NotFound();
 
             return View(projekcija);
         }
@@ -48,10 +43,9 @@ namespace Cineverse.Controllers
         // GET: Projekcija/Create
         public IActionResult Create()
         {
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma");
             return View();
         }
-
-        // POST: Projekcija/Create
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
@@ -64,6 +58,8 @@ namespace Cineverse.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
             return View(projekcija);
         }
 
@@ -71,30 +67,21 @@ namespace Cineverse.Controllers
         // GET: Projekcija/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var projekcija = await _context.Projekcija.FindAsync(id);
-            if (projekcija == null)
-            {
-                return NotFound();
-            }
+            if (projekcija == null) return NotFound();
+
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
             return View(projekcija);
         }
 
         [Authorize(Roles = "Administrator")]
-        // POST: Projekcija/Edit/5
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
-            if (id != projekcija.Id)
-            {
-                return NotFound();
-            }
+            if (id != projekcija.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -106,16 +93,14 @@ namespace Cineverse.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProjekcijaExists(projekcija.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
             return View(projekcija);
         }
 
@@ -123,23 +108,18 @@ namespace Cineverse.Controllers
         // GET: Projekcija/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var projekcija = await _context.Projekcija
+                .Include(p => p.FilmId)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (projekcija == null)
-            {
-                return NotFound();
-            }
+
+            if (projekcija == null) return NotFound();
 
             return View(projekcija);
         }
 
         [Authorize(Roles = "Administrator")]
-        // POST: Projekcija/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -148,9 +128,9 @@ namespace Cineverse.Controllers
             if (projekcija != null)
             {
                 _context.Projekcija.Remove(projekcija);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

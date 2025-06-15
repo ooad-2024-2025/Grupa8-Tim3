@@ -6,7 +6,7 @@
         public string NazivFilma { get; set; }
         public string SlikaFilmaUrl { get; set; }
         public TimeOnly VrijemeProjekcije { get; set; }
-        
+
         public DateOnly DatumProjekcije { get; set; }
         public string Sala { get; set; }
         public string Red { get; set; }

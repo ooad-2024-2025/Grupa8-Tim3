@@ -249,7 +249,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Rezervacija/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -280,7 +280,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Rezervacija/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
