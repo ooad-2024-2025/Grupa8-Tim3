@@ -21,7 +21,6 @@ namespace Cineverse.Controllers
         }
 
         // fja za odabir sjedista
-        [Authorize]
         public async Task<IActionResult> Odabir(int projekcijaId)
         {
             var projekcija = await _context.Projekcija

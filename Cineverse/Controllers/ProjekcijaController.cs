@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -43,6 +44,7 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Create
         public IActionResult Create()
         {
@@ -50,7 +52,8 @@ namespace Cineverse.Controllers
         }
 
         // POST: Projekcija/Create
-      
+
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
@@ -64,6 +67,7 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -80,8 +84,9 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST: Projekcija/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
@@ -114,6 +119,7 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -132,6 +138,7 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST: Projekcija/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -81,7 +81,13 @@
     </div>
 
     <div class="mt-4">
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+            <nobr>|</nobr>
+        }
+        <p>
+            <a asp-controller="Home" asp-action="Index">Vratite se na početnu stranicu</a>
+        </p>
     </div>
 </div>

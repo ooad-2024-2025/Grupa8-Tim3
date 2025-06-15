@@ -31,182 +31,160 @@ namespace Cineverse.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
 
-            // Direktno dohvati sve rezervacije za korisnika
-            var rezervacije = await _context.Rezervacija
-                .Where(r => r.KorisnikId.ToString() == userId)
-                .ToListAsync();
+            var rezultat = await (from r in _context.Rezervacija
+                                  join k in _context.Karta on r.Id equals k.RezervacijaId
+                                  join p in _context.Projekcija on r.ProjekcijaId equals p.Id
+                                  join f in _context.Film on p.FilmId equals f.Id
+                                  join d in _context.Dvorana on p.DvoranaId equals d.Id
+                                  join s in _context.Sjediste on k.SjedisteId equals s.Id
+                                  join c in _context.Cijena on r.CijenaId equals c.Id
+                                  where r.KorisnikId.ToString() == userId
+                                  select new
+                                  {
+                                      RezervacijaId = r.Id,
+                                      NazivFilma = f.NazivFilma,
+                                      Poster = f.Poster,
+                                      Vrijeme = p.Vrijeme,
+                                      Datum = p.Datum,
+                                      NazivDvorane = d.NazivDvorane,
+                                      Red = s.Red,
+                                      Kolona = s.Kolona,
+                                      OsnovnaCijena = c.OsnovnaCijena,
+                                      Lokacija = p.Lokacija
+                                  }).ToListAsync();
 
             var viewModelList = new List<PregledKarataViewModel>();
 
-            foreach (var rezervacija in rezervacije)
+            foreach (var item in rezultat)
             {
-                // Pronađi kartu za ovu rezervaciju
-                var karta = await _context.Karta.FirstOrDefaultAsync(k => k.RezervacijaId == rezervacija.Id);
-                if (karta == null) continue;
-
-                // Pronađi QR kod iz PregledKarata (ako postoji)
-                var pregledKarta = await _context.PregledKarata
-                    .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
-                string qrKod = pregledKarta?.QRKod ?? "N/A";
-
-
-
-                // Pronađi projekciju
-                var projekcija = await _context.Projekcija.FirstOrDefaultAsync(p => p.Id == rezervacija.ProjekcijaId);
-                if (projekcija == null) continue;
-
-                // Pronađi film
-                var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
-                if (film == null) continue;
-
-                // Pronađi dvoranu
-                var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
-                if (dvorana == null) continue;
-
-                // Pronađi sjedište
-                var sjediste = await _context.Sjediste.FirstOrDefaultAsync(s => s.Id == karta.SjedisteId);
-                if (sjediste == null) continue;
-
-                // Pronađi cijenu
-                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.Id == rezervacija.CijenaId);
-                if (cijena == null) continue;
-                string qrText = $"RezervacijaID:{rezervacija.Id}|Korisnik:{userId}|Film:{film.NazivFilma}|Datum:{projekcija.Datum:yyyy-MM-dd}|Vrijeme:{projekcija.Vrijeme:HH:mm}";
-
+                string qrText = $"RezervacijaID:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}";
                 string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
-                // Kombinuj datum i vrijeme za prikaz
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
-                    /*QRKod = qrKod,*/
                     QRKod = qrKodBase64,
-                    NazivFilma = film.NazivFilma,
-                    SlikaFilmaUrl = film.Poster,
-                    VrijemeProjekcije = projekcija.Vrijeme,
-                    DatumProjekcije = projekcija.Datum,
-                    Sala = dvorana.NazivDvorane,
-                    Red = sjediste.Red.ToString(),
-                    Sjediste = sjediste.Kolona.ToString(),
-                    Iznos = cijena.OsnovnaCijena,
-                    Lokacija = projekcija.Lokacija
+                    NazivFilma = item.NazivFilma,
+                    SlikaFilmaUrl = item.Poster,
+                    VrijemeProjekcije = item.Vrijeme,
+                    DatumProjekcije = item.Datum,
+                    Sala = item.NazivDvorane,
+                    Red = item.Red.ToString(),
+                    Sjediste = item.Kolona.ToString(),
+                    Iznos = item.OsnovnaCijena,
+                    Lokacija = item.Lokacija
                 });
             }
 
             return View(viewModelList);
         }
 
-        
         public async Task<IActionResult> PastReservations()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
 
-            
-            var rezervacije = await _context.Rezervacija
-                .Where(r => r.KorisnikId.ToString() == userId)
-                .ToListAsync();
+            var danas = DateOnly.FromDateTime(DateTime.Now);
 
-            var viewModelList = new List<PregledKarataViewModel>();
+            var rezultat = await (from r in _context.Rezervacija
+                                  join k in _context.Karta on r.Id equals k.RezervacijaId
+                                  join p in _context.Projekcija on r.ProjekcijaId equals p.Id
+                                  join f in _context.Film on p.FilmId equals f.Id
+                                  join d in _context.Dvorana on p.DvoranaId equals d.Id
+                                  join s in _context.Sjediste on k.SjedisteId equals s.Id
+                                  join c in _context.Cijena on r.CijenaId equals c.Id
+                                  where r.KorisnikId.ToString() == userId && p.Datum < danas
+                                  select new
+                                  {
+                                      RezervacijaId = r.Id,
+                                      NazivFilma = f.NazivFilma,
+                                      Poster = f.Poster,
+                                      Vrijeme = p.Vrijeme,
+                                      Datum = p.Datum,
+                                      NazivDvorane = d.NazivDvorane,
+                                      Red = s.Red,
+                                      Kolona = s.Kolona,
+                                      OsnovnaCijena = c.OsnovnaCijena,
+                                      Lokacija = p.Lokacija
+                                  }).ToListAsync();
 
-            foreach (var rezervacija in rezervacije)
+            var viewModelList = rezultat.Select(item => new PregledKarataViewModel
             {
-                // Pronađi kartu za ovu rezervaciju
-                var karta = await _context.Karta.FirstOrDefaultAsync(k => k.RezervacijaId == rezervacija.Id);
-                if (karta == null) continue;
-
-                // Pronađi QR kod iz PregledKarata (ako postoji)
-                var pregledKarta = await _context.PregledKarata
-                    .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
-                string qrKod = pregledKarta?.QRKod ?? "N/A";
-
-                // Pronađi projekciju
-                var projekcija = await _context.Projekcija.FirstOrDefaultAsync(p => p.Id == rezervacija.ProjekcijaId);
-                if (projekcija == null) continue;
-
-                // Pronađi film
-                var film = await _context.Film.FirstOrDefaultAsync(f => f.Id == projekcija.FilmId);
-                if (film == null) continue;
-
-                // Pronađi dvoranu
-                var dvorana = await _context.Dvorana.FirstOrDefaultAsync(d => d.Id == projekcija.DvoranaId);
-                if (dvorana == null) continue;
-
-                // Pronađi sjedište
-                var sjediste = await _context.Sjediste.FirstOrDefaultAsync(s => s.Id == karta.SjedisteId);
-                if (sjediste == null) continue;
-
-                // Pronađi cijenu
-                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.Id == rezervacija.CijenaId);
-                if (cijena == null) continue;
-
-                // Kombinuj datum i vrijeme za prikaz
-
-                viewModelList.Add(new PregledKarataViewModel
-                {
-                    QRKod = qrKod,
-                    NazivFilma = film.NazivFilma,
-                    SlikaFilmaUrl = film.Poster,
-                    VrijemeProjekcije = projekcija.Vrijeme,
-                    DatumProjekcije = projekcija.Datum,
-                    Sala = dvorana.NazivDvorane,
-                    Red = sjediste.Red.ToString(),
-                    Sjediste = sjediste.Kolona.ToString(),
-                    Iznos = cijena.OsnovnaCijena,
-                    Lokacija = projekcija.Lokacija
-                });
-            }
+                QRKod = "N/A",
+                NazivFilma = item.NazivFilma,
+                SlikaFilmaUrl = item.Poster,
+                VrijemeProjekcije = item.Vrijeme,
+                DatumProjekcije = item.Datum,
+                Sala = item.NazivDvorane,
+                Red = item.Red.ToString(),
+                Sjediste = item.Kolona.ToString(),
+                Iznos = item.OsnovnaCijena,
+                Lokacija = item.Lokacija
+            }).ToList();
 
             return View(viewModelList);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> KreirajPregledKarata()
+        public async Task<IActionResult> kreirajPregledKarata()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (userId == null)
                 return Unauthorized();
 
-            // Dohvati sve postojeće preglede za korisnika
-            var postojecePreglede = await _context.PregledKarata
+            var postojeciQrKodovi = await _context.PregledKarata
                 .Where(pk => pk.KorisnikId == userId)
-                .ToListAsync();
+                .Select(pk => pk.QRKod)
+                .ToHashSetAsync();
 
-            // Dohvati sve rezervacije za korisnika
-            var rezervacije = await _context.Rezervacija
-                .Where(r => r.KorisnikId == userId)
-                .ToListAsync();
+            var karte = await (from k in _context.Karta
+                               join r in _context.Rezervacija on k.RezervacijaId equals r.Id
+                               join p in _context.Projekcija on r.ProjekcijaId equals p.Id
+                               join f in _context.Film on p.FilmId equals f.Id
+                               where r.KorisnikId == userId
+                               select new
+                               {
+                                   KartaId = k.Id,
+                                   RezervacijaId = r.Id,
+                                   FilmNaziv = f.NazivFilma,
+                                   DatumProjekcije = p.Datum,
+                                   VrijemeProjekcije = p.Vrijeme
+                               }).ToListAsync();
 
-            // Kreiranje pregleda samo za rezervacije koje nemaju već generisan pregled
-            foreach (var rezervacija in rezervacije)
+            var noviPregledi = new List<PregledKarata>();
+
+            foreach (var karta in karte)
             {
-                // Provjera da li postoji pregled za ovu rezervaciju
-                var postojiPregled = postojecePreglede
-                    .Any(pk => pk.QRKod.Contains($"RezervacijaID:{rezervacija.Id}"));
+                var qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{karta.FilmNaziv}|Datum:{karta.DatumProjekcije:yyyy-MM-dd}|Vrijeme:{karta.VrijemeProjekcije:HH:mm}";
 
-                if (!postojiPregled)
+
+                var qrImageBase64 = _qrService.GenerateQrCodeBase64(qrText);
+
+                if (!postojeciQrKodovi.Contains(qrImageBase64))
                 {
-                    // Generisanje QR koda za rezervaciju
-                    var qrText = $"RezervacijaID:{rezervacija.Id}|KorisnikID:{userId}";
-
-                    var qrImageBase64 = _qrService.GenerateQrCodeBase64(qrText);
-
-                    // Kreiranje novog pregleda
                     var noviPregled = new PregledKarata
                     {
                         QRKod = qrImageBase64,
                         KorisnikId = userId
                     };
 
-                    _context.PregledKarata.Add(noviPregled);
+                    noviPregledi.Add(noviPregled);
+                    postojeciQrKodovi.Add(qrImageBase64);
                 }
             }
+            if (noviPregledi.Any())
+            {
+                _context.PregledKarata.AddRange(noviPregledi);
+                await _context.SaveChangesAsync();
+            }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "PregledKarata");
         }
-
-
 
         // GET: PregledKarata/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -233,7 +211,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: PregledKarata/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,QRKod,KorisnikId")] PregledKarata pregledKarata)
@@ -264,7 +242,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: PregledKarata/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,QRKod,KorisnikId")] PregledKarata pregledKarata)
