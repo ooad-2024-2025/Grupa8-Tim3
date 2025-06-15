@@ -49,6 +49,8 @@ namespace Cineverse.Controllers
                 var pregledKarta = await _context.PregledKarata
                     .FirstOrDefaultAsync(pk => pk.KorisnikId.ToString() == userId);
                 string qrKod = pregledKarta?.QRKod ?? "N/A";
+                
+
 
                 // Pronađi projekciju
                 var projekcija = await _context.Projekcija.FirstOrDefaultAsync(p => p.Id == rezervacija.ProjekcijaId);
@@ -69,12 +71,14 @@ namespace Cineverse.Controllers
                 // Pronađi cijenu
                 var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.Id == rezervacija.CijenaId);
                 if (cijena == null) continue;
+                string qrText = $"RezervacijaID:{rezervacija.Id}|Korisnik:{userId}|Film:{film.NazivFilma}|Datum:{projekcija.Datum:yyyy-MM-dd}|Vrijeme:{projekcija.Vrijeme:HH:mm}";
 
+                string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
                 // Kombinuj datum i vrijeme za prikaz
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
-                    QRKod = qrKod,
+                    /*QRKod = qrKod,*/QRKod = qrKodBase64,
                     NazivFilma = film.NazivFilma,
                     SlikaFilmaUrl = film.Poster,
                     VrijemeProjekcije = projekcija.Vrijeme,

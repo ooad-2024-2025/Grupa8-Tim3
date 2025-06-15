@@ -139,7 +139,9 @@
             <div style="margin-left:auto; text-align:center;">
                 <p><strong>Ovdje skenirajte QR kod:</strong></p>
                <!--- <img src="@item.QRKod" alt="QR Kod" class="qr-kod" /> -->
-                <img src="@Url.Action("QrImage", "PregledKarata", new { text = item.QRKod })" alt="QR Kod" class="qr-kod" />
+                <img src="@item.QRKod" alt="QR Kod" class="qr-kod" />
+
+                <!--<img src="@Url.Action("QrImage", "PregledKarata", new { text = item.QRKod })" alt="QR Kod" class="qr-kod" />-->
             </div>
 
             <form asp-action="DeleteConfirmed" method="post" style="margin-left: 20px;">
