@@ -136,7 +136,7 @@
     <p>@kartaText</p>
 </div>
 
-@foreach (var item in Model.OrderBy(x => x.DatumProjekcije).ThenBy(x => x.VrijemeProjekcije))
+@foreach (var item in Model.OrderByDescending(x => x.DatumProjekcije).ThenByDescending(x => x.VrijemeProjekcije))
 {
     if (item.DatumProjekcije >= today)
     {
