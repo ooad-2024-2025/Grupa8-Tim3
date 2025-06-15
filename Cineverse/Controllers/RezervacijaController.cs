@@ -340,11 +340,13 @@ namespace Cineverse.Controllers
             if (rezervacija != null)
             {
                 _context.Rezervacija.Remove(rezervacija);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Preusmjeravanje može biti prilagođeno
+            return RedirectToAction("Index", "PregledKarata"); // Ili RedirectToAction("PregledKarata")
         }
+
 
         private bool RezervacijaExists(int id)
         {

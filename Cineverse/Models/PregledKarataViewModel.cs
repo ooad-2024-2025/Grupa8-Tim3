@@ -2,6 +2,7 @@
 {
     public class PregledKarataViewModel
     {
+        public int KartaId { get; set; }
         public string QRKod { get; set; }
         public string NazivFilma { get; set; }
         public string SlikaFilmaUrl { get; set; }

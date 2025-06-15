@@ -18,5 +18,6 @@ namespace Cineverse.Models
 
         [ForeignKey("Dvorana")]
         public int DvoranaId { get; set; }
+        public Dvorana Dvorana { get; set; }
     }
 }

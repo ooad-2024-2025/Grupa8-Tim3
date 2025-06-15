@@ -14,5 +14,9 @@ namespace Cineverse.Models
 
         [ForeignKey("Sjediste")]
         public int SjedisteId { get; set; }
+
+        public Rezervacija Rezervacija { get; set; }
+
+        public Sjediste Sjediste { get; set; }
     }
 }

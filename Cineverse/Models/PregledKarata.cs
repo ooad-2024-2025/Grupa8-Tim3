@@ -16,5 +16,6 @@ namespace Cineverse.Models
 
         /*[ForeignKey("Karta")]
         public int KartaId { get; set; }*/
+        public Korisnik Korisnik { get; set; }
     }
 }
