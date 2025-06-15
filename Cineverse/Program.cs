@@ -3,6 +3,9 @@ using Cineverse.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using Cineverse.Services; // Add this using directive at the top of the file to resolve the namespace for QrCodeService.
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +18,8 @@ builder.Services.AddDefaultIdentity<Korisnik>(options => options.SignIn.RequireC
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<QrCodeService>();
 
 var app = builder.Build();
 
@@ -43,3 +48,5 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+

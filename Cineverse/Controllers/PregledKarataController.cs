@@ -10,6 +10,7 @@ using Cineverse.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Cineverse.Services;
 
 namespace Cineverse.Controllers
 {
@@ -17,10 +18,13 @@ namespace Cineverse.Controllers
     public class PregledKarataController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly QrCodeService _qrService;
 
-        public PregledKarataController(ApplicationDbContext context)
+
+        public PregledKarataController(ApplicationDbContext context, QrCodeService qrService)
         {
             _context = context;
+            _qrService = qrService;
         }
 
         // GET: PregledKarata
@@ -277,6 +281,11 @@ namespace Cineverse.Controllers
         private bool PregledKarataExists(int id)
         {
             return _context.PregledKarata.Any(e => e.Id == id);
+        }
+        public IActionResult QrImage(string text)
+        {
+            var qrBytes = _qrService.GenerateQrCode(text ?? "Prazno");
+            return File(qrBytes, "image/png");
         }
     }
 }
