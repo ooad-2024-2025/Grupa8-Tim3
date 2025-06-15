@@ -44,6 +44,7 @@ namespace Cineverse.Controllers
                                   where r.KorisnikId.ToString() == userId
                                   select new
                                   {
+                                      KartaId = k.Id,
                                       RezervacijaId = r.Id,
                                       NazivFilma = f.NazivFilma,
                                       Poster = f.Poster,
@@ -60,11 +61,12 @@ namespace Cineverse.Controllers
 
             foreach (var item in rezultat)
             {
-                string qrText = $"RezervacijaID:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}";
+                string qrText = $"rezervacijaid:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}";
                 string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
                 viewModelList.Add(new PregledKarataViewModel
                 {
+                    KartaId = item.KartaId,
                     QRKod = qrKodBase64,
                     NazivFilma = item.NazivFilma,
                     SlikaFilmaUrl = item.Poster,
@@ -99,6 +101,7 @@ namespace Cineverse.Controllers
                                   where r.KorisnikId.ToString() == userId && p.Datum < danas
                                   select new
                                   {
+                                      KartaId = k.Id,
                                       RezervacijaId = r.Id,
                                       NazivFilma = f.NazivFilma,
                                       Poster = f.Poster,
@@ -113,6 +116,7 @@ namespace Cineverse.Controllers
 
             var viewModelList = rezultat.Select(item => new PregledKarataViewModel
             {
+                KartaId = item.KartaId,
                 QRKod = "N/A",
                 NazivFilma = item.NazivFilma,
                 SlikaFilmaUrl = item.Poster,

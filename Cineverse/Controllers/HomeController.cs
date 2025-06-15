@@ -21,7 +21,8 @@ namespace Cineverse.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var filmovi = await _context.Film.ToListAsync();
+            //var filmovi = await _context.Film.ToListAsync();
+            var filmovi = RepertoarSingleton.GetInstance(_context).GetFilmovi();
             return View(filmovi);
         }
 

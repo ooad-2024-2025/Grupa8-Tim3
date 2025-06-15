@@ -18,6 +18,12 @@ namespace Cineverse.Models
         [ForeignKey("Cijena")]
         public int CijenaId { get; set; }
 
+        public Projekcija Projekcija { get; set; }
+
+        public Korisnik Korisnik { get; set; }
+
+        public Cijena Cijena { get; set; }
+
     }
 
 }
