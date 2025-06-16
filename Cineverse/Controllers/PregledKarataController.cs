@@ -30,9 +30,11 @@ namespace Cineverse.Controllers
         // GET: PregledKarata
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var korisnik = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var popustProcenat = IzracunajPopust(korisnik);
 
             var rezultat = await (from r in _context.Rezervacija
                                   join k in _context.Karta on r.Id equals k.RezervacijaId
@@ -40,7 +42,6 @@ namespace Cineverse.Controllers
                                   join f in _context.Film on p.FilmId equals f.Id
                                   join d in _context.Dvorana on p.DvoranaId equals d.Id
                                   join s in _context.Sjediste on k.SjedisteId equals s.Id
-                                  join c in _context.Cijena on f.Id equals c.FilmId
                                   where r.KorisnikId.ToString() == userId
                                   select new
                                   {
@@ -53,14 +54,17 @@ namespace Cineverse.Controllers
                                       NazivDvorane = d.NazivDvorane,
                                       Red = s.Red,
                                       Kolona = s.Kolona,
-                                      OsnovnaCijena = c.OsnovnaCijena,
-                                      Lokacija = p.Lokacija
+                                      Lokacija = p.Lokacija,
+                                      FilmId = f.Id
                                   }).ToListAsync();
 
             var viewModelList = new List<PregledKarataViewModel>();
 
             foreach (var item in rezultat)
             {
+                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.FilmId == item.FilmId);
+                decimal osnovnaCijena = (decimal)(cijena?.OsnovnaCijena ?? 0);
+
                 string qrText = $"rezervacijaid:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}";
                 string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
@@ -75,7 +79,7 @@ namespace Cineverse.Controllers
                     Sala = item.NazivDvorane,
                     Red = item.Red.ToString(),
                     Sjediste = item.Kolona.ToString(),
-                    Iznos = item.OsnovnaCijena,
+                    Iznos = (double)Math.Round(osnovnaCijena * (1 - popustProcenat), 2),
                     Lokacija = item.Lokacija
                 });
             }
@@ -83,12 +87,15 @@ namespace Cineverse.Controllers
             return View(viewModelList);
         }
 
+
         public async Task<IActionResult> PastReservations()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 
+            var korisnik = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var popustProcenat = IzracunajPopust(korisnik);
             var danas = DateOnly.FromDateTime(DateTime.Now);
 
             var rezultat = await (from r in _context.Rezervacija
@@ -97,7 +104,6 @@ namespace Cineverse.Controllers
                                   join f in _context.Film on p.FilmId equals f.Id
                                   join d in _context.Dvorana on p.DvoranaId equals d.Id
                                   join s in _context.Sjediste on k.SjedisteId equals s.Id
-                                  join c in _context.Cijena on f.Id equals c.FilmId
                                   where r.KorisnikId.ToString() == userId && p.Datum < danas
                                   select new
                                   {
@@ -110,27 +116,36 @@ namespace Cineverse.Controllers
                                       NazivDvorane = d.NazivDvorane,
                                       Red = s.Red,
                                       Kolona = s.Kolona,
-                                      OsnovnaCijena = c.OsnovnaCijena,
-                                      Lokacija = p.Lokacija
+                                      Lokacija = p.Lokacija,
+                                      FilmId = f.Id
                                   }).ToListAsync();
 
-            var viewModelList = rezultat.Select(item => new PregledKarataViewModel
+            var viewModelList = new List<PregledKarataViewModel>();
+
+            foreach (var item in rezultat)
             {
-                KartaId = item.KartaId,
-                QRKod = "N/A",
-                NazivFilma = item.NazivFilma,
-                SlikaFilmaUrl = item.Poster,
-                VrijemeProjekcije = item.Vrijeme,
-                DatumProjekcije = item.Datum,
-                Sala = item.NazivDvorane,
-                Red = item.Red.ToString(),
-                Sjediste = item.Kolona.ToString(),
-                Iznos = item.OsnovnaCijena,
-                Lokacija = item.Lokacija
-            }).ToList();
+                var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.FilmId == item.FilmId);
+                decimal osnovnaCijena = (decimal)(cijena?.OsnovnaCijena ?? 0);
+
+                viewModelList.Add(new PregledKarataViewModel
+                {
+                    KartaId = item.KartaId,
+                    QRKod = "N/A", // Ne prikazujemo QR kod za prošle karte
+                    NazivFilma = item.NazivFilma,
+                    SlikaFilmaUrl = item.Poster,
+                    VrijemeProjekcije = item.Vrijeme,
+                    DatumProjekcije = item.Datum,
+                    Sala = item.NazivDvorane,
+                    Red = item.Red.ToString(),
+                    Sjediste = item.Kolona.ToString(),
+                    Iznos = (double)Math.Round(osnovnaCijena * (1 - popustProcenat), 2),
+                    Lokacija = item.Lokacija
+                });
+            }
 
             return View(viewModelList);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -321,6 +336,7 @@ namespace Cineverse.Controllers
             var qrBytes = _qrService.GenerateQrCode(text ?? "Prazno");
             return File(qrBytes, "image/png");
         }
+<<<<<<< HEAD
         public IActionResult Uspjesno(string kod)
         {
             ViewBag.Kod = kod;
@@ -328,5 +344,41 @@ namespace Cineverse.Controllers
         }
 
 
+=======
+
+        // racunanje popusta
+        private decimal IzracunajPopust(Korisnik korisnik)
+        {
+            decimal popustProcenat = 0m;
+
+            if (korisnik.DatumRodjenja == null)
+            {
+                if (korisnik.Email.Contains("kinoradnik"))
+                {
+                    popustProcenat = 0.10m;
+                }
+            }
+            else
+            {
+                var danas = DateTime.Today;
+                var godinaRodjenja = korisnik.DatumRodjenja.Value;
+                int godine = danas.Year - godinaRodjenja.Year;
+                if (godinaRodjenja > danas.AddYears(-godine))
+                    godine--;
+
+                if (godine >= 65)
+                {
+                    popustProcenat = 0.30m;
+                }
+                else if (godine >= 15 && godine <= 26)
+                {
+                    popustProcenat = 0.15m;
+                }
+            }
+
+            return popustProcenat;
+        }
+
+>>>>>>> 9eed8aacddb44b81199969ecf325e33f580eefd1
     }
 }
