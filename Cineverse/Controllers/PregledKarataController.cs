@@ -55,7 +55,9 @@ namespace Cineverse.Controllers
                                       Red = s.Red,
                                       Kolona = s.Kolona,
                                       Lokacija = p.Lokacija,
-                                      FilmId = f.Id
+                                      FilmId = f.Id,
+                                      red = s.Red,
+                                      kolona = s.Kolona
                                   }).ToListAsync();
 
             var viewModelList = new List<PregledKarataViewModel>();
@@ -117,7 +119,9 @@ namespace Cineverse.Controllers
                                       Red = s.Red,
                                       Kolona = s.Kolona,
                                       Lokacija = p.Lokacija,
-                                      FilmId = f.Id
+                                      FilmId = f.Id,
+                                      red = s.Red,
+                                      kolona = s.Kolona
                                   }).ToListAsync();
 
             var viewModelList = new List<PregledKarataViewModel>();
@@ -165,6 +169,7 @@ namespace Cineverse.Controllers
                                join r in _context.Rezervacija on k.RezervacijaId equals r.Id
                                join p in _context.Projekcija on r.ProjekcijaId equals p.Id
                                join f in _context.Film on p.FilmId equals f.Id
+                               join s in _context.Sjediste on k.SjedisteId equals s.Id
                                where r.KorisnikId == userId
                                select new
                                {
@@ -172,15 +177,16 @@ namespace Cineverse.Controllers
                                    RezervacijaId = r.Id,
                                    FilmNaziv = f.NazivFilma,
                                    DatumProjekcije = p.Datum,
-                                   VrijemeProjekcije = p.Vrijeme
+                                   VrijemeProjekcije = p.Vrijeme,
+                                   Red = s.Red,
+                                   Kolona = s.Kolona
                                }).ToListAsync();
 
             var noviPregledi = new List<PregledKarata>();
 
             foreach (var karta in karte)
             {
-                var qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{karta.FilmNaziv}|Datum:{karta.DatumProjekcije:yyyy-MM-dd}|Vrijeme:{karta.VrijemeProjekcije:HH:mm}";
-
+                var qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{karta.FilmNaziv}|Datum:{karta.DatumProjekcije:yyyy-MM-dd}|Vrijeme:{karta.VrijemeProjekcije:HH:mm}|Red:{karta.Red}|Kolona:{karta.Kolona}";
 
                 var qrImageBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
@@ -312,20 +318,57 @@ namespace Cineverse.Controllers
             return View(pregledKarata);
         }
 
-        // POST: PregledKarata/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int kartaId)
         {
-            var pregledKarata = await _context.PregledKarata.FindAsync(id);
-            if (pregledKarata != null)
+            var karta = await _context.Karta
+                .Include(k => k.Rezervacija)
+                .Include(k => k.Sjediste)
+                .FirstOrDefaultAsync(k => k.Id == kartaId);
+
+            if (karta == null) return NotFound();
+
+            var projekcija = await _context.Projekcija
+                .Include(p => p.Film)
+                .FirstOrDefaultAsync(p => p.Id == karta.Rezervacija.ProjekcijaId);
+
+            if (projekcija == null) return NotFound();
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            // Regeneriši QR kod
+            string qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{projekcija.Film.NazivFilma}|Datum:{projekcija.Datum:yyyy-MM-dd}|Vrijeme:{projekcija.Vrijeme:HH:mm}|Red:{karta.Sjediste.Red}|Kolona:{karta.Sjediste.Kolona}";
+            string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
+
+            // Pronađi odgovarajući pregled karata
+            var pregled = await _context.PregledKarata
+                .FirstOrDefaultAsync(pk => pk.KorisnikId == userId && pk.QRKod == qrKodBase64);
+
+            if (pregled != null)
             {
-                _context.PregledKarata.Remove(pregledKarata);
+                _context.PregledKarata.Remove(pregled);
+            }
+
+            _context.Karta.Remove(karta);
+
+            // Obriši rezervaciju ako je ovo bila posljednja karta
+            bool imaJosKarata = await _context.Karta.AnyAsync(k => k.RezervacijaId == karta.RezervacijaId && k.Id != karta.Id);
+            if (!imaJosKarata)
+            {
+                var rezervacija = await _context.Rezervacija.FindAsync(karta.RezervacijaId);
+                if (rezervacija != null)
+                    _context.Rezervacija.Remove(rezervacija);
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["Poruka"] = "Rezervacija uspješno otkazana.";
+
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool PregledKarataExists(int id)
         {
@@ -341,9 +384,6 @@ namespace Cineverse.Controllers
             ViewBag.Kod = kod;
             return View();
         }
-
-
-
 
         // racunanje popusta
         private decimal IzracunajPopust(Korisnik korisnik)
