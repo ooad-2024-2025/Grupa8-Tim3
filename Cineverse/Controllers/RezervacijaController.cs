@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Cineverse.Data;
+using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Cineverse.Data;
-using Cineverse.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cineverse.Controllers
 {
@@ -19,7 +20,6 @@ namespace Cineverse.Controllers
             _context = context;
         }
 
-<<<<<<< Updated upstream
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Potvrda(int projekcijaId, List<int> odabranaSjedista)
@@ -70,7 +70,6 @@ namespace Cineverse.Controllers
 
             if (korisnik.DatumRodjenja == null)
             {
-
                 if (korisnik.Email.Contains("kinoradnik"))
                 {
                     popustProcenat = 0.10m;
@@ -218,8 +217,6 @@ namespace Cineverse.Controllers
             }
         }
 
-=======
->>>>>>> Stashed changes
         // GET: Rezervacija
         public async Task<IActionResult> Index()
         {
@@ -358,7 +355,6 @@ namespace Cineverse.Controllers
             //return RedirectToAction("Index", "PregledKarata"); // Ili RedirectToAction("PregledKarata")
             return RedirectToAction("PregledKarata");
         }
-
 
         private bool RezervacijaExists(int id)
         {

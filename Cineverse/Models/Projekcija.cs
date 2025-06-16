@@ -17,17 +17,11 @@ namespace Cineverse.Models
 
         public int FilmId { get; set; }
 
-<<<<<<< Updated upstream
 
         [ForeignKey("FilmId")]
         public Film Film { get; set; }
 
     
-=======
-        [ForeignKey("FilmId")]
-        public Film Film { get; set; }
 
-     
->>>>>>> Stashed changes
     }
 }

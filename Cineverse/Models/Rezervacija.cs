@@ -16,7 +16,6 @@ namespace Cineverse.Models
         [ForeignKey("Korisnik")]
         public string KorisnikId { get; set; }
 
-<<<<<<< Updated upstream
         /*[ForeignKey("Cijena")]
         public int CijenaId { get; set; }*/
 
@@ -24,11 +23,7 @@ namespace Cineverse.Models
 
         [ForeignKey("KorisnikId")]
         public Korisnik Korisnik { get; set; }
-=======
 
-        [ForeignKey("Cijena")]
-        public int CijenaId { get; set; }
->>>>>>> Stashed changes
 
     }
 
