@@ -45,6 +45,12 @@ namespace Cineverse.Data
         .WithMany()
         .HasForeignKey(p => p.FilmId)
         .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Rezervacija>()
+        .HasOne(p => p.Projekcija)
+        .WithMany()
+        .HasForeignKey(p => p.ProjekcijaId)
+        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
