@@ -39,6 +39,7 @@ namespace Cineverse.Data
         .WithMany()
         .HasForeignKey(p => p.FilmId)
         .OnDelete(DeleteBehavior.Cascade);
+<<<<<<< Updated upstream
 
             modelBuilder.Entity<Rezervacija>()
         .HasOne(p => p.Projekcija)
@@ -64,6 +65,8 @@ namespace Cineverse.Data
     .HasForeignKey(p => p.KorisnikId)
     .OnDelete(DeleteBehavior.Cascade);
 
+=======
+>>>>>>> Stashed changes
         }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -20,6 +19,7 @@ namespace Cineverse.Controllers
             _context = context;
         }
 
+<<<<<<< Updated upstream
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Potvrda(int projekcijaId, List<int> odabranaSjedista)
@@ -218,10 +218,13 @@ namespace Cineverse.Controllers
             }
         }
 
+=======
+>>>>>>> Stashed changes
         // GET: Rezervacija
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rezervacija.ToListAsync());
+            var applicationDbContext = _context.Rezervacija.Include(r => r.Projekcija);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Rezervacija/Details/5
@@ -233,6 +236,7 @@ namespace Cineverse.Controllers
             }
 
             var rezervacija = await _context.Rezervacija
+                .Include(r => r.Projekcija)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (rezervacija == null)
             {
@@ -245,11 +249,13 @@ namespace Cineverse.Controllers
         // GET: Rezervacija/Create
         public IActionResult Create()
         {
+            ViewData["ProjekcijaId"] = new SelectList(_context.Projekcija, "Id", "Id");
             return View();
         }
 
         // POST: Rezervacija/Create
-
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -260,6 +266,7 @@ namespace Cineverse.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProjekcijaId"] = new SelectList(_context.Projekcija, "Id", "Id", rezervacija.ProjekcijaId);
             return View(rezervacija);
         }
 
@@ -276,11 +283,13 @@ namespace Cineverse.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProjekcijaId"] = new SelectList(_context.Projekcija, "Id", "Id", rezervacija.ProjekcijaId);
             return View(rezervacija);
         }
 
         // POST: Rezervacija/Edit/5
-
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -310,6 +319,7 @@ namespace Cineverse.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProjekcijaId"] = new SelectList(_context.Projekcija, "Id", "Id", rezervacija.ProjekcijaId);
             return View(rezervacija);
         }
 
@@ -322,6 +332,7 @@ namespace Cineverse.Controllers
             }
 
             var rezervacija = await _context.Rezervacija
+                .Include(r => r.Projekcija)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (rezervacija == null)
             {

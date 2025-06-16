@@ -280,8 +280,11 @@ namespace Cineverse.Data.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<< Updated upstream
                     b.HasIndex("KorisnikId");
 
+=======
+>>>>>>> Stashed changes
                     b.HasIndex("ProjekcijaId");
 
                     b.ToTable("Rezervacija", (string)null);
@@ -451,6 +454,7 @@ namespace Cineverse.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+<<<<<<< Updated upstream
             modelBuilder.Entity("Cineverse.Models.Cijena", b =>
                 {
                     b.HasOne("Cineverse.Models.Film", "Film")
@@ -492,6 +496,8 @@ namespace Cineverse.Data.Migrations
                     b.Navigation("Korisnik");
                 });
 
+=======
+>>>>>>> Stashed changes
             modelBuilder.Entity("Cineverse.Models.Projekcija", b =>
                 {
                     b.HasOne("Cineverse.Models.Film", "Film")
@@ -505,18 +511,22 @@ namespace Cineverse.Data.Migrations
 
             modelBuilder.Entity("Cineverse.Models.Rezervacija", b =>
                 {
+<<<<<<< Updated upstream
                     b.HasOne("Cineverse.Models.Korisnik", "Korisnik")
                         .WithMany()
                         .HasForeignKey("KorisnikId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+=======
+>>>>>>> Stashed changes
                     b.HasOne("Cineverse.Models.Projekcija", "Projekcija")
                         .WithMany()
                         .HasForeignKey("ProjekcijaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+<<<<<<< Updated upstream
                     b.Navigation("Korisnik");
 
                     b.Navigation("Projekcija");
@@ -533,6 +543,11 @@ namespace Cineverse.Data.Migrations
                     b.Navigation("Dvorana");
                 });
 
+=======
+                    b.Navigation("Projekcija");
+                });
+
+>>>>>>> Stashed changes
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)

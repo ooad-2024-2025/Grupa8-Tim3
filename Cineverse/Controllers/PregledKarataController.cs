@@ -336,7 +336,6 @@ namespace Cineverse.Controllers
             var qrBytes = _qrService.GenerateQrCode(text ?? "Prazno");
             return File(qrBytes, "image/png");
         }
-<<<<<<< HEAD
         public IActionResult Uspjesno(string kod)
         {
             ViewBag.Kod = kod;
@@ -344,7 +343,7 @@ namespace Cineverse.Controllers
         }
 
 
-=======
+
 
         // racunanje popusta
         private decimal IzracunajPopust(Korisnik korisnik)
@@ -379,6 +378,6 @@ namespace Cineverse.Controllers
             return popustProcenat;
         }
 
->>>>>>> 9eed8aacddb44b81199969ecf325e33f580eefd1
+
     }
 }
