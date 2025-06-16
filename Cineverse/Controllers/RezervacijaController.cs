@@ -182,7 +182,7 @@ namespace Cineverse.Controllers
                     {
                         ProjekcijaId = projekcijaId,
                         KorisnikId = userId,
-                        CijenaId = cijena.Id,
+                        //CijenaId = cijena.Id,
                         Status = "Potvrđena"
                     };
 

@@ -58,7 +58,7 @@
                 var odabranaSjedista = ViewBag.OdabranaSjedista as List<int>;
                 if (odabranaSjedista != null && odabranaSjedista.Any())
                 {
-
+                   
                     <form asp-action="KreirajRezervaciju" method="post" id="kreirajRezervacijuForm" style="display: inline;">
                         <input type="hidden" name="projekcijaId" value="@ViewBag.ProjekcijaId" />
 
@@ -68,7 +68,7 @@
                         }
                     </form>
 
-
+                  
                     <form asp-action="kreirajKartu" method="post" id="kreirajKartuForm" style="display: none;">
                         <input type="hidden" name="rezervacijaId" id="rezervacijaIdInput" value="" />
 
@@ -129,8 +129,8 @@
 
 <style>
 
-    flex-direction: column !important;
-    padding: 1rem !important;
+        flex-direction: column !important;
+        padding: 1rem !important;
     }
 
     .details-container > div:first-child {

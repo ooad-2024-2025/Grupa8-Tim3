@@ -40,7 +40,7 @@ namespace Cineverse.Controllers
                                   join f in _context.Film on p.FilmId equals f.Id
                                   join d in _context.Dvorana on p.DvoranaId equals d.Id
                                   join s in _context.Sjediste on k.SjedisteId equals s.Id
-                                  join c in _context.Cijena on r.CijenaId equals c.Id
+                                  join c in _context.Cijena on f.Id equals c.FilmId
                                   where r.KorisnikId.ToString() == userId
                                   select new
                                   {
@@ -97,7 +97,7 @@ namespace Cineverse.Controllers
                                   join f in _context.Film on p.FilmId equals f.Id
                                   join d in _context.Dvorana on p.DvoranaId equals d.Id
                                   join s in _context.Sjediste on k.SjedisteId equals s.Id
-                                  join c in _context.Cijena on r.CijenaId equals c.Id
+                                  join c in _context.Cijena on f.Id equals c.FilmId
                                   where r.KorisnikId.ToString() == userId && p.Datum < danas
                                   select new
                                   {
