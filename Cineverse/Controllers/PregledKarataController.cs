@@ -321,5 +321,12 @@ namespace Cineverse.Controllers
             var qrBytes = _qrService.GenerateQrCode(text ?? "Prazno");
             return File(qrBytes, "image/png");
         }
+        public IActionResult Uspjesno(string kod)
+        {
+            ViewBag.Kod = kod;
+            return View();
+        }
+
+
     }
 }

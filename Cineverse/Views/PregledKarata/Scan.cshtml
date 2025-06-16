@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Skeniraj kartu";
+}
+
+<h2>Skeniraj kartu (Drag & Drop QR)</h2>
+
+<div id="drop-area" style="width: 300px; height: 200px; border: 2px dashed #aaa; text-align: center; padding: 20px;">
+    <p>Prevucite sliku QR koda ovdje</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+
+<script>
+    const dropArea = document.getElementById('drop-area');
+
+    dropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropArea.style.borderColor = "green";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.style.borderColor = "#aaa";
+    });
+
+    dropArea.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        dropArea.style.borderColor = "#aaa";
+
+        const file = e.dataTransfer.files[0];
+        if (!file || !file.type.startsWith("image")) {
+            alert("Molimo odaberite validnu sliku.");
+            return;
+        }
+
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = (evt) => {
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+                if (code) {
+                    // Redirekcija na uspjeh stranicu sa kodom iz QR-a
+                    window.location.href = `/PregledKarata/Uspjesno?kod=${encodeURIComponent(code.data)}`;
+                } else {
+                    alert("QR kod nije prepoznat.");
+                }
+            };
+            img.src = evt.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>

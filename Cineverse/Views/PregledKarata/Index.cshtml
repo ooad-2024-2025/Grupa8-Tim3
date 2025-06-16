@@ -135,8 +135,10 @@
     }
     <p>@kartaText</p>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 
 @foreach (var item in Model.OrderByDescending(x => x.DatumProjekcije).ThenByDescending(x => x.VrijemeProjekcije))
+
 {
     if (item.DatumProjekcije >= today)
     {
@@ -163,12 +165,78 @@
                 <input type="hidden" name="id" value="@item.KartaId" />
                 <button type="submit" class="otkazi-btn">Otkaži rezervaciju</button>
             </form> -->
+           
+            <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+            <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+
+       
+            <div id="drop-area-@item.KartaId" class="drop-area" style="width:300px;height:200px;border:2px dashed #aaa;text-align:center;padding:20px;">
+                <p>Prevucite QR kod ovdje</p>
+            </div>
             <form asp-controller="Karta" asp-action="Delete" method="post" style="margin-left: 20px;" onsubmit="return confirm('Da li ste sigurni da želite otkazati ovu rezervaciju?');">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@item.KartaId" />
                 <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                 <button type="submit" class="otkazi-btn">Otkaži rezervaciju</button>
             </form>
+
+            <script>
+                (function () {
+                    const dropArea = document.getElementById("drop-area-@item.KartaId");
+
+                    dropArea.addEventListener("dragover", (e) => {
+                        e.preventDefault();
+                        dropArea.style.borderColor = "green";
+                    });
+
+                    dropArea.addEventListener("dragleave", () => {
+                        dropArea.style.borderColor = "#aaa";
+                    });
+
+                    dropArea.addEventListener("drop", async (e) => {
+                        e.preventDefault();
+                        dropArea.style.borderColor = "#aaa";
+
+                        const file = e.dataTransfer.files[0];
+                        if (!file || !file.type.startsWith("image")) {
+                            alert("Molimo ubacite sliku QR koda.");
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        const img = new Image();
+
+                        reader.onload = (event) => {
+                            img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+
+                                const ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0);
+                                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                                const code = jsQR(imageData.data, canvas.width, canvas.height);
+                                if (code) {
+                                    console.log("QR kod:", code.data);
+                                    window.location.href = `/PregledKarata/Uspjesno?kod=${encodeURIComponent(code.data)}`;
+                                } else {
+                                    alert("QR kod nije prepoznat.");
+                                }
+                            };
+
+                            img.src = event.target.result;
+                        };
+
+                        reader.readAsDataURL(file);
+                    });
+                })();
+            </script>
+
+
+
+
+
 
         </div>
     }
