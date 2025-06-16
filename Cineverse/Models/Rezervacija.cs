@@ -7,13 +7,14 @@ namespace Cineverse.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Projekcija")]
         public int ProjekcijaId { get; set; }
+        [ForeignKey("ProjekcijaId")]
+        public Projekcija Projekcija { get; set; }
         public string Status { get; set; } = string.Empty;
 
         [ForeignKey("Korisnik")]
         public string KorisnikId { get; set; }
+
 
         [ForeignKey("Cijena")]
         public int CijenaId { get; set; }

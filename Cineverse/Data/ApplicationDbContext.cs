@@ -39,6 +39,12 @@ namespace Cineverse.Data
 
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Projekcija>()
+        .HasOne(p => p.Film)
+        .WithMany()
+        .HasForeignKey(p => p.FilmId)
+        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

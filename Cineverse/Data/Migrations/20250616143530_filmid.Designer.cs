@@ -4,6 +4,7 @@ using Cineverse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cineverse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250616143530_filmid")]
+    partial class filmid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,8 +278,6 @@ namespace Cineverse.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjekcijaId");
-
                     b.ToTable("Rezervacija", (string)null);
                 });
 
@@ -451,17 +452,6 @@ namespace Cineverse.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Film");
-                });
-
-            modelBuilder.Entity("Cineverse.Models.Rezervacija", b =>
-                {
-                    b.HasOne("Cineverse.Models.Projekcija", "Projekcija")
-                        .WithMany()
-                        .HasForeignKey("ProjekcijaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Projekcija");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

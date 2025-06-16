@@ -15,7 +15,14 @@ namespace Cineverse.Models
         public DateOnly Datum { get; set; }
         public TimeOnly Vrijeme { get; set; }
 
-        [ForeignKey("Film")]
         public int FilmId { get; set; }
+<<<<<<< Updated upstream
+=======
+
+        [ForeignKey("FilmId")]
+        public Film Film { get; set; }
+
+     
+>>>>>>> Stashed changes
     }
 }

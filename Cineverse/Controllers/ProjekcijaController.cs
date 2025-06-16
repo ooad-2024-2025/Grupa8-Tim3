@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -21,33 +22,39 @@ namespace Cineverse.Controllers
         // GET: Projekcija
         public async Task<IActionResult> Index()
         {
-            var projekcije = _context.Projekcija.Include(p => p.FilmId);
-            return View(await projekcije.ToListAsync());
+            var applicationDbContext = _context.Projekcija.Include(p => p.Film);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Projekcija/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var projekcija = await _context.Projekcija
-                .Include(p => p.FilmId)
+                .Include(p => p.Film)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (projekcija == null) return NotFound();
+            if (projekcija == null)
+            {
+                return NotFound();
+            }
 
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Create
         public IActionResult Create()
         {
-            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma");
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "Id");
             return View();
         }
 
-        [Authorize(Roles = "Administrator")]
+        // POST: Projekcija/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
@@ -58,30 +65,38 @@ namespace Cineverse.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "Id", projekcija.FilmId);
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var projekcija = await _context.Projekcija.FindAsync(id);
-            if (projekcija == null) return NotFound();
-
-            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
+            if (projekcija == null)
+            {
+                return NotFound();
+            }
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "Id", projekcija.FilmId);
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
+        // POST: Projekcija/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
-            if (id != projekcija.Id) return NotFound();
+            if (id != projekcija.Id)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -93,33 +108,40 @@ namespace Cineverse.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProjekcijaExists(projekcija.Id))
+                    {
                         return NotFound();
+                    }
                     else
+                    {
                         throw;
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "NazivFilma", projekcija.FilmId);
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "Id", projekcija.FilmId);
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
         // GET: Projekcija/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var projekcija = await _context.Projekcija
-                .Include(p => p.FilmId)
+                .Include(p => p.Film)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (projekcija == null) return NotFound();
+            if (projekcija == null)
+            {
+                return NotFound();
+            }
 
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
+        // POST: Projekcija/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -128,9 +150,9 @@ namespace Cineverse.Controllers
             if (projekcija != null)
             {
                 _context.Projekcija.Remove(projekcija);
-                await _context.SaveChangesAsync();
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
