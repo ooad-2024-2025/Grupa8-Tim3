@@ -4,6 +4,7 @@ using Cineverse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cineverse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250616151950_kartamig")]
+    partial class kartamig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +275,7 @@ namespace Cineverse.Data.Migrations
 
                     b.Property<string>("KorisnikId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjekcijaId")
                         .HasColumnType("int");
@@ -282,8 +285,6 @@ namespace Cineverse.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("KorisnikId");
 
                     b.HasIndex("ProjekcijaId");
 
@@ -508,19 +509,11 @@ namespace Cineverse.Data.Migrations
 
             modelBuilder.Entity("Cineverse.Models.Rezervacija", b =>
                 {
-                    b.HasOne("Cineverse.Models.Korisnik", "Korisnik")
-                        .WithMany()
-                        .HasForeignKey("KorisnikId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Cineverse.Models.Projekcija", "Projekcija")
                         .WithMany()
                         .HasForeignKey("ProjekcijaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Korisnik");
 
                     b.Navigation("Projekcija");
                 });

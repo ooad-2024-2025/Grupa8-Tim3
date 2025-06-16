@@ -12,14 +12,13 @@ namespace Cineverse.Models
         public Projekcija Projekcija { get; set; }
         public string Status { get; set; } = string.Empty;
 
-        [ForeignKey("Korisnik")]
-        public string KorisnikId { get; set; }
-
-
         [ForeignKey("Cijena")]
         public int CijenaId { get; set; }
 
-        
+        public string KorisnikId { get; set; }
+
+        [ForeignKey("KorisnikId")]
+        public Korisnik Korisnik { get; set; }
 
     }
 

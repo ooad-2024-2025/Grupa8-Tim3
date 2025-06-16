@@ -1,66 +1,30 @@
 ﻿@model Cineverse.Models.Karta
+
 @{
-    ViewData["Title"] = "Detalji karte";
-    
-    var movieTitle = "BARBIE";
-    var cinema = "Cineverse Sarajevo";
-    var dateTime = new DateTime(2025, 4, 20, 14, 40, 0);
-    var hall = 3;
-    var row = 6;
-    var seat = 7;
-    var price = 9.5M;
-    var discount = 0.0M;
-    var total = price - discount;
+    ViewData["Title"] = "Details";
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div style="background-color: #d4edda; color: #155724; padding: 1rem; margin: 1rem 0; border-radius: 5px; border: 1px solid #c3e6cb;">
-        <strong>@TempData["SuccessMessage"]</strong>
-        <br /><br />
-        <a href="@Url.Action("Index", "Karta")" style="display: inline-block; padding: 10px 20px; background-color: #FFA500; color: black; text-decoration: none; border-radius: 5px;">
-            Pregled Karti
-        </a>
-    </div>
-}
+<h1>Details</h1>
 
-<div class="details-container" style="display: flex; gap: 2rem; padding: 2rem; background-color: #000; color: #fff; font-family: sans-serif;">
-    <div>
-        <img src="https://upload.wikimedia.org/wikipedia/en/0/0b/Barbie_2023_poster.jpg" alt="Barbie Poster" style="width: 250px; border-radius: 12px;" />
-    </div>
-    <div style="flex: 1;">
-        <h1 style="color: #FFA500;">@movieTitle</h1>
-        <p><strong>@cinema</strong></p>
-        <p>@dateTime.ToString("dd.M.yyyy, HH:mm") - Dvorana @hall</p>
-        <p>2D, Sinhronizovano</p>
-
-        <hr />
-
-        <p><strong>DVORANA @hall</strong> &nbsp;&nbsp; RED @row &nbsp;&nbsp; SJEDIŠTE @seat</p>
-
-        <form>
-            <label for="popust">Popust:</label>
-            <select id="popust" name="popust" style="margin-left: 10px;">
-                <option value="none">Ništa</option>
-                <option value="student">Student</option>
-                <option value="senior">Penzioner</option>
-            </select>
-        </form>
-
-        <hr />
-
-        <p>Regular: 1 x @price KM</p>
-        <p>Popust: @discount KM</p>
-        <p><strong>Iznos: @total KM</strong></p>
-
-        <br />
-        <form asp-action="Create" method="post">
-            <input type="hidden" name="Id" value="@Model.Id" />
-            <input type="hidden" name="RezervacijaId" value="@Model.RezervacijaId" />
-            <input type="hidden" name="SjedisteId" value="@Model.SjedisteId" />
-            <button type="submit" style="padding: 10px 20px; background-color: #FFA500; color: black; border: none; border-radius: 5px; cursor: pointer;">
-                Rezerviši karte →
-            </button>
-        </form>
-    </div>
+<div>
+    <h4>Karta</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Rezervacija)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Rezervacija.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sjediste)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sjediste.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

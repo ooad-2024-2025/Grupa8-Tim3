@@ -31,18 +31,12 @@ namespace Cineverse.Controllers
                 return Unauthorized();
             }
 
-            
+
             var rezervacija = await _context.Rezervacija.FirstOrDefaultAsync(r => r.Id == rezervacijaId);
             if (rezervacija == null)
             {
                 TempData["Error"] = "Rezervacija nije pronađena.";
                 return RedirectToAction("Index");
-            }
-
-            // Provjeri da li je korisnik vlasnik rezervacije
-            if (rezervacija.KorisnikId != userId)
-            {
-                return Forbid();
             }
 
             if (sjedista == null || !sjedista.Any())
@@ -53,7 +47,7 @@ namespace Cineverse.Controllers
 
             try
             {
-                
+
                 foreach (var sjedisteId in sjedista)
                 {
                     // Provjeri da li sjedište već ima kartu za ovu rezervaciju
@@ -82,7 +76,7 @@ namespace Cineverse.Controllers
             }
         }
 
-  
+
         public IActionResult Uspjeh(int rezervacijaId)
         {
             ViewBag.RezervacijaId = rezervacijaId;
@@ -120,7 +114,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Karta/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RezervacijaId,SjedisteId")] Karta karta)
@@ -155,7 +149,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Karta/Edit/5
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,RezervacijaId,SjedisteId")] Karta karta)

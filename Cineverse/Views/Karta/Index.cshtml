@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RezervacijaId)
+                @Html.DisplayNameFor(model => model.Rezervacija)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SjedisteId)
+                @Html.DisplayNameFor(model => model.Sjediste)
             </th>
             <th></th>
         </tr>
@@ -25,23 +25,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RezervacijaId)
+                @Html.DisplayFor(modelItem => item.Rezervacija.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SjedisteId)
+                @Html.DisplayFor(modelItem => item.Sjediste.Id)
             </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <nobr>|</nobr>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        <nobr>|</nobr>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <nobr>|</nobr>
-                    }
-                </td>
-
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
         </tr>
 }
     </tbody>

@@ -16,8 +16,10 @@ namespace Cineverse.Models
         public TipSjedista TipSjedista
         { get; set; }
 
-        [ForeignKey("Dvorana")]
         public int DvoranaId { get; set; }
+
+        [ForeignKey("DvoranaId")]
         public Dvorana Dvorana { get; set; }
+
     }
 }

@@ -9,13 +9,15 @@ namespace Cineverse.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Rezervacija")]
         public int RezervacijaId { get; set; }
 
-        [ForeignKey("Sjediste")]
+
+        [ForeignKey("RezervacijaId")]
+        public Rezervacija Rezervacija { get; set; }
+
         public int SjedisteId { get; set; }
 
-        public Rezervacija Rezervacija { get; set; }
+        [ForeignKey("SjedisteId")]
 
         public Sjediste Sjediste { get; set; }
     }

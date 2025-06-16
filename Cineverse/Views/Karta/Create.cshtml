@@ -14,13 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RezervacijaId" class="control-label"></label>
-                <input asp-for="RezervacijaId" class="form-control" />
-                <span asp-validation-for="RezervacijaId" class="text-danger"></span>
+                <select asp-for="RezervacijaId" class ="form-control" asp-items="ViewBag.RezervacijaId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="SjedisteId" class="control-label"></label>
-                <input asp-for="SjedisteId" class="form-control" />
-                <span asp-validation-for="SjedisteId" class="text-danger"></span>
+                <select asp-for="SjedisteId" class ="form-control" asp-items="ViewBag.SjedisteId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -33,6 +31,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

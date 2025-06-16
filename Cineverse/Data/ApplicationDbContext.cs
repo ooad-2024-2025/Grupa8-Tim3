@@ -32,12 +32,6 @@ namespace Cineverse.Data
             modelBuilder.Entity<Dvorana>().ToTable("Dvorana");
             modelBuilder.Entity<PregledKarata>().ToTable("PregledKarata");
 
-
-           
-
-            // Ostale konfiguracije...
-
-
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Projekcija>()
@@ -51,6 +45,25 @@ namespace Cineverse.Data
         .WithMany()
         .HasForeignKey(p => p.ProjekcijaId)
         .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Karta>()
+        .HasOne(p => p.Rezervacija)
+        .WithMany()
+        .HasForeignKey(p => p.RezervacijaId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Sjediste>()
+        .HasOne(p => p.Dvorana)
+        .WithMany()
+        .HasForeignKey(p => p.DvoranaId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PregledKarata>()
+    .HasOne(p => p.Korisnik)
+    .WithMany()
+    .HasForeignKey(p => p.KorisnikId)
+    .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

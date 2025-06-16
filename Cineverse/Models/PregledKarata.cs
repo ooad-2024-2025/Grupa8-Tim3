@@ -11,11 +11,12 @@ namespace Cineverse.Models
         public int Id { get; set; }
         public string QRKod { get; set; } = string.Empty;
 
-        [ForeignKey("Korisnik")]
         public string KorisnikId { get; set; }
+
+        [ForeignKey("KorisnikId")]
+        public Korisnik Korisnik { get; set; }
 
         /*[ForeignKey("Karta")]
         public int KartaId { get; set; }*/
-        public Korisnik Korisnik { get; set; }
     }
 }
