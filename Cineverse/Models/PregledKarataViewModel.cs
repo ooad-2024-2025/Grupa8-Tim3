@@ -13,6 +13,7 @@
         public string Red { get; set; }
         public string Sjediste { get; set; }
         public double Iznos { get; set; }
+        public double Popust { get; set; }
         public string Lokacija { get; set; }
     }
 
