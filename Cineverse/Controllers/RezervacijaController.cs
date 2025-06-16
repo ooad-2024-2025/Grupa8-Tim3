@@ -344,7 +344,8 @@ namespace Cineverse.Controllers
             }
 
             // Preusmjeravanje može biti prilagođeno
-            return RedirectToAction("Index", "PregledKarata"); // Ili RedirectToAction("PregledKarata")
+            //return RedirectToAction("Index", "PregledKarata"); // Ili RedirectToAction("PregledKarata")
+            return RedirectToAction("PregledKarata");
         }
 
 
