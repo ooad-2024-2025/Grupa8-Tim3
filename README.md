@@ -10,3 +10,6 @@ User:
     email: emirakurtovic2022@gmail.com
     password: Emira-12345
 Link za aplikaciju: http://grupa8tim3ooad-001-site1.ktempurl.com/
+Za deploy verziju:
+        username: 11246277
+        password: 60-dayfreetrial
