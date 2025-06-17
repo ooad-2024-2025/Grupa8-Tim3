@@ -6,6 +6,7 @@
     var zauzeta = ViewBag.Zauzeta as List<int>;
     var sjedista = ViewBag.Sjedista as List<Cineverse.Models.Sjediste>;
     var maxRed = sjedista.Max(s => s.Red);
+    var isAuthenticated = User.Identity.IsAuthenticated;
 }
 
 <style>
@@ -116,6 +117,12 @@
         color: white;
         font-size: 16px; /* Smaller font size for legend title */
     }
+
+    .login-prompt {
+        color: #e67e00;
+        margin-top: 20px;
+        text-align: center;
+    }
 </style>
 
 <div class="container-wrapper">
@@ -189,9 +196,19 @@
                 }
             </div>
 
-            <div style="text-align: center; margin-top: 20px;">
-                <button type="submit" class="submit-btn" id="rezervisiBtn" disabled>REZERVIŠI</button>
-            </div>
+            @if (isAuthenticated)
+            {
+                <div style="text-align: center; margin-top: 20px;">
+                    <button type="submit" class="submit-btn" id="rezervisiBtn" disabled>REZERVIŠI</button>
+                </div>
+            }
+            else
+            {
+                <div class="login-prompt">
+                    Morate biti prijavljeni da biste izvršili rezervaciju.
+                </div>
+            }
+
             <div style="text-align: center; margin-top: 20px;">
                 <button type="button" class="submit-btn" onclick="history.back();">NAZAD</button>
             </div>
@@ -199,14 +216,17 @@
     </div>
 </div>
 
-<script>
-    const checkboxes = document.querySelectorAll("input[name='odabranaSjedista']");
-    const rezervisiBtn = document.getElementById("rezervisiBtn");
+@if (isAuthenticated)
+{
+    <script>
+        const checkboxes = document.querySelectorAll("input[name='odabranaSjedista']");
+        const rezervisiBtn = document.getElementById("rezervisiBtn");
 
-    function provjeriOdabir() {
-        const imaOdabranih = Array.from(checkboxes).some(cb => cb.checked);
-        rezervisiBtn.disabled = !imaOdabranih;
-    }
-    checkboxes.forEach(cb => cb.addEventListener("change", provjeriOdabir));
-   provjeriOdabir();
-</script>
+        function provjeriOdabir() {
+            const imaOdabranih = Array.from(checkboxes).some(cb => cb.checked);
+            rezervisiBtn.disabled = !imaOdabranih;
+        }
+        checkboxes.forEach(cb => cb.addEventListener("change", provjeriOdabir));
+        provjeriOdabir();
+    </script>
+}
