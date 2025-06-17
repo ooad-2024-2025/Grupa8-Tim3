@@ -27,6 +27,7 @@ namespace Cineverse.Controllers
             _qrService = qrService;
         }
 
+
         // GET: PregledKarata
         public async Task<IActionResult> Index()
         {
@@ -67,7 +68,7 @@ namespace Cineverse.Controllers
                 var cijena = await _context.Cijena.FirstOrDefaultAsync(c => c.FilmId == item.FilmId);
                 decimal osnovnaCijena = (decimal)(cijena?.OsnovnaCijena ?? 0);
 
-                string qrText = $"rezervacijaid:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}";
+                string qrText = $"kartaid:{item.KartaId}|rezervacijaid:{item.RezervacijaId}|Korisnik:{userId}|Film:{item.NazivFilma}|Datum:{item.Datum:yyyy-MM-dd}|Vrijeme:{item.Vrijeme:HH:mm}|Red:{item.Red}|Kolona:{item.Kolona}";
                 string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
                 viewModelList.Add(new PregledKarataViewModel
@@ -186,7 +187,7 @@ namespace Cineverse.Controllers
 
             foreach (var karta in karte)
             {
-                var qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{karta.FilmNaziv}|Datum:{karta.DatumProjekcije:yyyy-MM-dd}|Vrijeme:{karta.VrijemeProjekcije:HH:mm}|Red:{karta.Red}|Kolona:{karta.Kolona}";
+                var qrText = $"kartaid:{karta.KartaId}|rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{karta.FilmNaziv}|Datum:{karta.DatumProjekcije:yyyy-MM-dd}|Vrijeme:{karta.VrijemeProjekcije:HH:mm}|Red:{karta.Red}|Kolona:{karta.Kolona}";
 
                 var qrImageBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
@@ -339,7 +340,7 @@ namespace Cineverse.Controllers
             if (userId == null) return Unauthorized();
 
             // Regeneriši QR kod
-            string qrText = $"rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{projekcija.Film.NazivFilma}|Datum:{projekcija.Datum:yyyy-MM-dd}|Vrijeme:{projekcija.Vrijeme:HH:mm}|Red:{karta.Sjediste.Red}|Kolona:{karta.Sjediste.Kolona}";
+            string qrText = $"kartaid:{karta.Id}|rezervacijaid:{karta.RezervacijaId}|Korisnik:{userId}|Film:{projekcija.Film.NazivFilma}|Datum:{projekcija.Datum:yyyy-MM-dd}|Vrijeme:{projekcija.Vrijeme:HH:mm}|Red:{karta.Sjediste.Red}|Kolona:{karta.Sjediste.Kolona}";
             string qrKodBase64 = _qrService.GenerateQrCodeBase64(qrText);
 
             // Pronađi odgovarajući pregled karata
@@ -418,6 +419,54 @@ namespace Cineverse.Controllers
             return popustProcenat;
         }
 
+        //moze primat qr kod a i ne mora ugl treba ga validirati
+        [HttpPost]
+        public async Task<IActionResult> validacijaQRKoda(string qrText, int kartaId)
+        {
+            if (string.IsNullOrEmpty(qrText))
+                return Json(new { valid = false, message = "QR kod je prazan" });
 
+            try
+            {
+                var parts = qrText.Split('|');
+
+                var kartaIdPart = parts.FirstOrDefault(p => p.StartsWith("kartaid:"));
+                if (kartaIdPart == null)
+                    return Json(new { valid = false, message = "QR kod ne sadrži ID karte" });
+
+                if (!int.TryParse(kartaIdPart.Split(':')[1], out int qrKartaId))
+                    return Json(new { valid = false, message = "ID karte u QR kodu nije validan broj" });
+
+                if (qrKartaId != kartaId)
+                    return Json(new { valid = false, message = "QR kod ne pripada ovoj karti" });
+
+                var karta = await _context.Karta.FindAsync(kartaId);
+                if (karta == null)
+                    return Json(new { valid = false, message = "Karta sa datim ID-om ne postoji" });
+
+                var rezervacijaIdPart = parts.FirstOrDefault(p => p.StartsWith("rezervacijaid:"));
+                if (rezervacijaIdPart != null && int.TryParse(rezervacijaIdPart.Split(':')[1], out int qrRezervacijaId))
+                {
+                    if (qrRezervacijaId != karta.RezervacijaId)
+                        return Json(new { valid = false, message = "QR kod ne odgovara rezervaciji za ovu kartu" });
+                }
+
+                var korisnikPart = parts.FirstOrDefault(p => p.StartsWith("Korisnik:"));
+                if (korisnikPart != null)
+                {
+                    var qrKorisnikId = korisnikPart.Split(':')[1];
+                    var trenutniKorisnikId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    if (qrKorisnikId != trenutniKorisnikId)
+                        return Json(new { valid = false, message = "QR kod ne pripada trenutnom korisniku" });
+                }
+
+                return Json(new { valid = true, message = "QR kod je valjan i odgovara ovoj karti" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { valid = false, message = "Greška pri validaciji QR koda: " + ex.Message });
+            }
+        }
     }
 }

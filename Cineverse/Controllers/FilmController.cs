@@ -178,6 +178,7 @@ namespace Cineverse.Controllers
         {
             return _context.Film.Any(e => e.Id == id);
         }
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

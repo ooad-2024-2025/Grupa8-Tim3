@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Cineverse.Models.Rezervacija>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Korisnik> _userManager
+
+
+@model IEnumerable<Cineverse.Models.Rezervacija>
 
 @{
     ViewData["Title"] = "Index";
@@ -41,12 +45,17 @@
 
                 @Html.DisplayFor(modelItem => item.Korisnik.Id)
             </td>
-            <td>
+                <td>
+                    @if (User.IsInRole("Administrator") || item.KorisnikId == _userManager.GetUserId(User))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <nobr>|</nobr>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <nobr>|</nobr>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
 
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
         </tr>
 }
     </tbody>

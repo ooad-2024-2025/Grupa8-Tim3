@@ -64,7 +64,9 @@ namespace Cineverse.Controllers
                 .FirstOrDefaultAsync(k => k.Id == userId);
 
             if (korisnik == null)
-                return Unauthorized();
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = Url.Action("Potvrda", "Rezervacija", new { projekcijaId }) });
+            }
 
             decimal popustProcenat = 0m;
 

@@ -105,7 +105,24 @@
             color: #ddd;
             margin: 0;
         }
+
+    .drop-area {
+        width: 300px;
+        height: 200px;
+        border: 2px dashed #aaa;
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+        transition: border-color 0.3s ease;
+    }
+
+        .drop-area:hover {
+            border-color: #d35400;
+        }
 </style>
+
+<!-- Učitaj jsQR biblioteku samo jednom -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 
 <div class="tabs-container">
     <div class="tabs">
@@ -135,10 +152,8 @@
     }
     <p>@kartaText</p>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 
 @foreach (var item in Model.OrderByDescending(x => x.DatumProjekcije).ThenByDescending(x => x.VrijemeProjekcije))
-
 {
     if (item.DatumProjekcije >= today)
     {
@@ -154,25 +169,13 @@
 
             <div style="margin-left:auto; text-align:center;">
                 <p><strong>Ovdje skenirajte QR kod:</strong></p>
-                <!--- <img src="@item.QRKod" alt="QR Kod" class="qr-kod" /> -->
                 <img src="@item.QRKod" alt="QR Kod" class="qr-kod" />
-
-                <!--<img src="@Url.Action("QrImage", "PregledKarata", new { text = item.QRKod })" alt="QR Kod" class="qr-kod" />-->
             </div>
 
-           <!-- <form asp-controller="Karta" asp-action="Delete" method="post" style="margin-left: 20px;" onsubmit="return confirm('Da li ste sigurni da želite otkazati ovu rezervaciju?');">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="id" value="@item.KartaId" />
-                <button type="submit" class="otkazi-btn">Otkaži rezervaciju</button>
-            </form> -->
-           
-            <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-            <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
-
-       
-            <div id="drop-area-@item.KartaId" class="drop-area" style="width:300px;height:200px;border:2px dashed #aaa;text-align:center;padding:20px;">
+            <div id="drop-area-@item.KartaId" class="drop-area">
                 <p>Prevucite QR kod ovdje</p>
             </div>
+
             <form asp-controller="PregledKarata" asp-action="Delete" method="post" style="margin-left: 20px;" onsubmit="return confirm('Da li ste sigurni da želite otkazati ovu rezervaciju?');">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="kartaId" value="@item.KartaId" />
@@ -182,6 +185,7 @@
             <script>
                 (function () {
                     const dropArea = document.getElementById("drop-area-@item.KartaId");
+                    const kartaId = @item.KartaId;
 
                     dropArea.addEventListener("dragover", (e) => {
                         e.preventDefault();
@@ -206,7 +210,7 @@
                         const img = new Image();
 
                         reader.onload = (event) => {
-                            img.onload = () => {
+                            img.onload = async () => {
                                 const canvas = document.createElement("canvas");
                                 canvas.width = img.width;
                                 canvas.height = img.height;
@@ -218,7 +222,37 @@
                                 const code = jsQR(imageData.data, canvas.width, canvas.height);
                                 if (code) {
                                     console.log("QR kod:", code.data);
-                                    window.location.href = `/PregledKarata/Uspjesno?kod=${encodeURIComponent(code.data)}`;
+
+                                    try {
+                                        // Dobiti CSRF token
+                                        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                                        const response = await fetch('/PregledKarata/validacijaQRKoda', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded',
+                                                'RequestVerificationToken': token
+                                            },
+                                            body: `qrText=${encodeURIComponent(code.data)}&kartaId=${kartaId}&__RequestVerificationToken=${encodeURIComponent(token)}`
+                                        });
+
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                        }
+
+                                        const result = await response.json();
+
+                                        if (result.valid) {
+                                            window.location.href = `/PregledKarata/Uspjesno?kod=${encodeURIComponent(code.data)}`;
+                                        } else {
+                                            alert(`Greška: ${result.message}`);
+                                        }
+
+                                    } catch (error) {
+                                        alert("Greška pri validaciji QR koda.");
+                                        console.error("Validation error:", error);
+                                    }
+
                                 } else {
                                     alert("QR kod nije prepoznat.");
                                 }
@@ -231,12 +265,6 @@
                     });
                 })();
             </script>
-
-
-
-
-
-
         </div>
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cineverse.Data;
 using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cineverse.Controllers
 {
@@ -43,6 +44,7 @@ namespace Cineverse.Controllers
             return View(cijena);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Cijena/Create
         public IActionResult Create()
         {
@@ -50,7 +52,8 @@ namespace Cineverse.Controllers
         }
 
         // POST: Cijena/Create
-     
+
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,OsnovnaCijena,FilmId")] Cijena cijena)
@@ -64,6 +67,7 @@ namespace Cineverse.Controllers
             return View(cijena);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Cijena/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -81,7 +85,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Cijena/Edit/5
-       
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,OsnovnaCijena,FilmId")] Cijena cijena)
@@ -114,6 +118,7 @@ namespace Cineverse.Controllers
             return View(cijena);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Cijena/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -132,6 +137,7 @@ namespace Cineverse.Controllers
             return View(cijena);
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST: Cijena/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
