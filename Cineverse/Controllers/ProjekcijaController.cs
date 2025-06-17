@@ -50,7 +50,7 @@ namespace Cineverse.Controllers
 
         // GET: Projekcija/Create
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
 
         public IActionResult Create()
         {
@@ -61,10 +61,10 @@ namespace Cineverse.Controllers
         // POST: Projekcija/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Administrator")]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
             if (ModelState.IsValid)
@@ -79,7 +79,7 @@ namespace Cineverse.Controllers
 
         // GET: Projekcija/Edit/5
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -100,10 +100,10 @@ namespace Cineverse.Controllers
         // POST: Projekcija/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Administrator")]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DvoranaId,Lokacija,Datum,Vrijeme,FilmId")] Projekcija projekcija)
         {
             if (id != projekcija.Id)
@@ -136,7 +136,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Projekcija/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -156,10 +156,10 @@ namespace Cineverse.Controllers
             return View(projekcija);
         }
 
-        [Authorize(Roles = "Administrator")]
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projekcija = await _context.Projekcija.FindAsync(id);

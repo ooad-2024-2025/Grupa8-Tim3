@@ -1,33 +1,33 @@
 ﻿@model Cineverse.Models.Karta
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Obriši";
 }
 
-<h1>Delete</h1>
+<h1>Obriši</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Jeste li sigurni da želite obrisati ovo?</h3>
 <div>
     <h4>Karta</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Rezervacija)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Rezervacija.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sjediste)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sjediste.Id)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Obriši" class="btn btn-danger" /> |
+        <a asp-action="Index">Nazad na listu</a>
     </form>
 </div>
