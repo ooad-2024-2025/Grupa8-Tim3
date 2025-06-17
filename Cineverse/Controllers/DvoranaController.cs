@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Cineverse.Data;
+using Cineverse.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Cineverse.Data;
-using Cineverse.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cineverse.Controllers
 {
@@ -44,6 +45,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Dvorana/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +55,7 @@ namespace Cineverse.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,NazivDvorane,Kapacitet")] Dvorana dvorana)
         {
             if (ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Dvorana/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +85,11 @@ namespace Cineverse.Controllers
         }
 
         // POST: Dvorana/Edit/5
-    
+       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NazivDvorane,Kapacitet")] Dvorana dvorana)
         {
             if (id != dvorana.Id)
@@ -115,6 +121,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Dvorana/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +142,7 @@ namespace Cineverse.Controllers
         // POST: Dvorana/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var dvorana = await _context.Dvorana.FindAsync(id);

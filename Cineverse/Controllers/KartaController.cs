@@ -200,38 +200,6 @@ namespace Cineverse.Controllers
             return View(karta);
         }
 
-        /* [HttpPost, ActionName("Delete")]
-         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> DeleteConfirmed(int id) // id je ID karte koja se briše
-         {
-             // Pronađi kartu po ID-ju
-             var karta = await _context.Karta.FindAsync(id);
-             if (karta == null)
-                 return NotFound();
-
-             // Uzmi ID rezervacije povezane s ovom kartom
-             int rezervacijaId = karta.RezervacijaId;
-
-             // Dohvati sve karte povezane s ovom rezervacijom
-             var karteZaBrisanje = await _context.Karta
-                 .Where(k => k.RezervacijaId == rezervacijaId)
-                 .ToListAsync();
-
-             // Obriši sve karte povezane s rezervacijom
-             _context.Karta.RemoveRange(karteZaBrisanje);
-
-             // Obriši rezervaciju
-             var rezervacija = await _context.Rezervacija.FindAsync(rezervacijaId);
-             if (rezervacija != null)
-             {
-                 _context.Rezervacija.Remove(rezervacija);
-             }
-
-             // Spremi promjene
-             await _context.SaveChangesAsync();
-
-             return RedirectToAction(nameof(Index));
-         }*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, string returnUrl = null)
