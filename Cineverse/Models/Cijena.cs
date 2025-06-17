@@ -7,6 +7,8 @@ namespace Cineverse.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Osnovna cijena")]
         public double OsnovnaCijena { get; set; }
 
         [ForeignKey("Film")]

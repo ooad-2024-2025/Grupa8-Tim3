@@ -9,6 +9,8 @@ namespace Cineverse.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "QR Kod")]
         public string QRKod { get; set; } = string.Empty;
 
         public string KorisnikId { get; set; }

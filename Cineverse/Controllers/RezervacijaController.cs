@@ -220,6 +220,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Rezervacija
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Rezervacija.Include(r => r.Projekcija);
@@ -227,6 +228,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Rezervacija/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -246,6 +248,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Rezervacija/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["ProjekcijaId"] = new SelectList(_context.Projekcija, "Id", "Id");
@@ -255,6 +258,7 @@ namespace Cineverse.Controllers
         // POST: Rezervacija/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -270,6 +274,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Rezervacija/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -289,6 +294,7 @@ namespace Cineverse.Controllers
         // POST: Rezervacija/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjekcijaId,Status,KorisnikId,CijenaId")] Rezervacija rezervacija)
@@ -323,6 +329,7 @@ namespace Cineverse.Controllers
         }
 
         // GET: Rezervacija/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -342,6 +349,7 @@ namespace Cineverse.Controllers
         }
 
         // POST: Rezervacija/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -9,7 +9,9 @@ namespace Cineverse.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		public string NazivDvorane { get; set; }
+
+        [Display(Name = "Naziv dvorane")]
+        public string NazivDvorane { get; set; }
 		public int Kapacitet { get; set; }
 		//public int SlobodnaMjesta { get; set; }
 	}
