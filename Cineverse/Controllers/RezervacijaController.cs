@@ -65,7 +65,7 @@ namespace Cineverse.Controllers
 
             if (korisnik == null)
             {
-                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = Url.Action("Potvrda", "Rezervacija", new { projekcijaId }) });
+                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = Url.Action("Odabir", "Sjediste", new { projekcijaId }) });
             }
 
             decimal popustProcenat = 0m;
@@ -370,5 +370,6 @@ namespace Cineverse.Controllers
         {
             return _context.Rezervacija.Any(e => e.Id == id);
         }
+
     }
 }

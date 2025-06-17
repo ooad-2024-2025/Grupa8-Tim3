@@ -23,6 +23,12 @@ namespace Cineverse.Controllers
         // fja za odabir sjedista
         public async Task<IActionResult> Odabir(int projekcijaId)
         {
+            var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = Url.Action("Odabir", "Sjediste", new { projekcijaId }) });
+            }
             var projekcija = await _context.Projekcija
                 .FirstOrDefaultAsync(p => p.Id == projekcijaId);
 
