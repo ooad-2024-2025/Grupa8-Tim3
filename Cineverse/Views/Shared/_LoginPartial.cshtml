@@ -3,48 +3,33 @@
 @inject UserManager<Korisnik> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <!---<li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>-->
-        <span class="nav-link" style="color: darkorange; font-size: 20px;">
-            Zdravo!
-        </span>
-
-        <!-- Novo dugme za pregled karata -->
+    @if (SignInManager.IsSignedIn(User))
+    {
         <li class="nav-item">
-            <a class="btn btn-primary px-4 mx-2" asp-controller="PregledKarata" asp-action="Index">
-                Pregled Karata
-            </a>
+            <span class="nav-link" style="color: darkorange; font-size: 20px;">Zdravo!</span>
         </li>
 
-   <!-- <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>-->
         <li class="nav-item">
-            <form class="form-inline mx-3" asp-area="Identity" asp-page="/Account/Logout"
-                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="btn btn-primary px-4">
-                    Odjava
-                </button>
+            <form asp-action="kreirajPregledKarata" asp-controller="PregledKarata" method="post" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary px-4 mx-2">Pregled Karata</button>
             </form>
         </li>
 
-
-}
-else
-{
-    <li class="nav-item">
+        <li class="nav-item">
+            <form class="form-inline mx-3" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+                <button type="submit" class="btn btn-primary px-4">Odjava</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
             <a class="btn btn-primary px-4" asp-area="Identity" asp-page="/Account/Register">Registracija</a>
-    </li>
-    
+        </li>
 
-
-    <li class="nav-item">
+        <li class="nav-item">
             <a class="btn btn-primary px-4 mx-3" asp-area="Identity" asp-page="/Account/Login">Prijava</a>
-    </li>
-}
+        </li>
+    }
 </ul>
